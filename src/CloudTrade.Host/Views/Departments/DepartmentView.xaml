@@ -1,0 +1,143 @@
+﻿<UserControl x:Class="CloudTrade.Host.Views.Departments.DepartmentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CloudTrade.Host.Views.Departments"
+             mc:Ignorable="d" 
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:hc="https://handyorg.github.io/handycontrol" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             d:DesignHeight="675" d:DesignWidth="1110">
+    <hc:TransitioningContentControl TransitionMode="Right2LeftWithFade">
+        <Border Margin="5" CornerRadius="10" Background="Transparent">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="65"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" BorderBrush="White" CornerRadius="10" Background="{DynamicResource RegionBrush}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <DockPanel HorizontalAlignment="Left" LastChildFill="False" Grid.Column="0">
+                            <Button Content="{DynamicResource Add}" Style="{DynamicResource ButtonDefault}" Command="{Binding InsertCommand}" Width="80" Height="35" FontWeight="Bold" FontSize="15" Margin="10 0 0 0"></Button>
+                            <Button Content="{DynamicResource Delete}" Style="{DynamicResource ButtonDefault}" Command="{Binding DeleteCommand}" CommandParameter="{Binding ElementName=dg,Path=SelectedItems}" Width="80" Height="35" FontWeight="Bold" FontSize="15" Margin="10 0 0 0"></Button>
+                            <Button Content="{DynamicResource Update}" Style="{DynamicResource ButtonDefault}" Command="{Binding UpdateCommand}" CommandParameter="{Binding ElementName=dg,Path=SelectedItems}" Width="80" Height="35" FontWeight="Bold" FontSize="15" Margin="10 0 0 0"></Button>
+                            <Button Content="{DynamicResource Query}" Style="{DynamicResource ButtonDefault}" Command="{Binding SelectCommand}" Width="80" Height="35" FontWeight="Bold" FontSize="15" Margin="10 0 0 0">
+                                <Button.CommandParameter>
+                                    <MultiBinding Converter="{StaticResource mpcv}">
+                                        <Binding ElementName="cbo_page" Path="SelectedIndex"></Binding>
+                                        <Binding ElementName="txt_query" Path="Text"></Binding>
+                                    </MultiBinding>
+                                </Button.CommandParameter>
+                            </Button>
+                            <hc:TextBox  hc:InfoElement.ShowClearButton="True" Width="200" Height="35" FontSize="15" hc:InfoElement.Placeholder="{DynamicResource DepartmentName}" x:Name="txt_query" Margin="10 0 0 0"></hc:TextBox>
+                        </DockPanel>
+                        <DockPanel Grid.Column="1">
+                            <Border CornerRadius="40" Width="40" Height="40" BorderThickness="1" BorderBrush="{DynamicResource BackgroundBrush}" Background="Gray" Margin="10">
+                                <Button Content="&#xf129;"  FontFamily="{DynamicResource fontawesome}" FontSize="20" BorderThickness="0" Background="Transparent" Foreground="White" Command="{Binding infoCommand}"></Button>
+                            </Border>
+                        </DockPanel>
+                    </Grid>
+
+                </Border>
+                <Border Grid.Row="1"  CornerRadius="10" Margin="0 5">
+                    <Grid>
+                        <Border CornerRadius="10" Background="{DynamicResource RegionBrush}" >
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock Text="&#xf1b3;" TextAlignment="Center" FontSize="100" FontFamily="{StaticResource fontawesome}" Foreground="{DynamicResource PrimaryBrush}"></TextBlock>
+                                <TextBlock Text="{DynamicResource NoData}" TextAlignment="Center" FontSize="100" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}"></TextBlock>
+                            </StackPanel>
+                        </Border>
+                        <DataGrid x:Name="dg" Visibility="{Binding DepartmentList.Count,Converter={StaticResource btcv}}" hc:DataGridAttach.CanUnselectAllWithBlankArea="True" HeadersVisibility="All" RowHeaderWidth="60" AutoGenerateColumns="False" ItemsSource="{Binding DepartmentList,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
+                            <DataGrid.RowHeaderTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding IsSelected,RelativeSource={RelativeSource AncestorType=DataGridRow}}"/>
+                                </DataTemplate>
+                            </DataGrid.RowHeaderTemplate>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="{DynamicResource Id}" Binding="{Binding Id}" Visibility="Hidden"></DataGridTextColumn>
+                                <DataGridTextColumn Header="{DynamicResource DepartmentName}" Binding="{Binding DepartmentName}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="{DynamicResource Remark}" Binding="{Binding Remark}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="{DynamicResource CreateTime}" Binding="{Binding CreateTime}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="{DynamicResource LastUpdateTime}" Binding="{Binding LastUpdateTime}"></DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </Grid>
+                </Border>
+                <Border Grid.Row="2" Background="{DynamicResource RegionBrush}" CornerRadius="10" >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <ComboBox x:Name="cbo_page"  Width="100" SelectedIndex="0">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding SelectCommand}">
+                                            <i:InvokeCommandAction.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource mpcv}">
+                                                    <Binding ElementName="cbo_page" Path="SelectedIndex"></Binding>
+                                                    <Binding ElementName="txt_query" Path="Text"></Binding>
+                                                </MultiBinding>
+                                            </i:InvokeCommandAction.CommandParameter>
+                                        </i:InvokeCommandAction>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                <ComboBoxItem Content="10条/页"></ComboBoxItem>
+                                <ComboBoxItem Content="20条/页"></ComboBoxItem>
+                                <ComboBoxItem Content="50条/页"></ComboBoxItem>
+
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <hc:Pagination MaxPageCount="{Binding PageCount,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" PageIndex="{Binding PageIndex,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" IsJumpEnabled="True">
+                                <hc:Interaction.Triggers>
+                                    <hc:EventTrigger EventName="PageUpdated">
+                                        <hc:EventToCommand Command="{Binding SelectCommand}"  PassEventArgsToCommand="True" >
+                                            <hc:EventToCommand.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource mpcv}">
+                                                    <Binding ElementName="cbo_page" Path="SelectedIndex"></Binding>
+                                                    <Binding ElementName="txt_query" Path="Text"></Binding>
+
+                                                </MultiBinding>
+                                            </hc:EventToCommand.CommandParameter>
+                                        </hc:EventToCommand>
+                                    </hc:EventTrigger>
+                                </hc:Interaction.Triggers>
+                            </hc:Pagination>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2"></StackPanel>
+                    </Grid>
+                </Border>
+                <hc:Drawer Name="DrawerRightInContainer" MaskCanClose="False" IsOpen="{Binding IsOpen,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
+                    <Border Width="400" Height="400" BorderBrush="{DynamicResource BorderBrush}" CornerRadius="10" Background="{DynamicResource DefaultBrush}"  Margin="0 0 5 0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="230"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Margin="0 10 0 0" HorizontalAlignment="Center" TextAlignment="Center" FontSize="30" FontWeight="Bold" Text="商品类别" Style="{StaticResource TextBlockTitle}" Foreground="{StaticResource PrimaryBrush}"/>
+                            <StackPanel Grid.Row="1" >
+                                <TextBlock Width="330" Margin="0 20 0 0" TextWrapping="Wrap" FontSize="16" 
+                                           Text="商品是指通过生产、加工、运输等过程，满足人们需求的物品或服务。它可以是实物，也可以是无形的服务。商品一般通过市场交换，具有一定的价值和使用价值。商品可以分为消费品和生产资料两大类，消费品是直接满足个人或家庭需求的物品，如食品、衣物等；生产资料是用于生产其他商品的物品，如原材料、机器设备等。"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Grid.Row="2">
+                                <Button Content="确定" Style="{StaticResource ButtonDefault}" Height="45" Width="200" FontSize="20" FontWeight="Bold" Margin="0 10 0 0" Command="hc:ControlCommands.Close"></Button>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </hc:Drawer>
+            </Grid>
+        </Border>
+    </hc:TransitioningContentControl>
+</UserControl>
+

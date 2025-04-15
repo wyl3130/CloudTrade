@@ -1,0 +1,161 @@
+﻿<Window x:Class="CloudTrade.Host.Views.Employees.EmployeDialogView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CloudTrade.Host.Views.Employees"
+        mc:Ignorable="d"
+                     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        AllowsTransparency="True"
+        Foreground="{x:Null}"
+        Background="{x:Null}"
+        FocusVisualStyle="{x:Null}"
+        WindowStyle="None"
+        Title="CommodityCategoryDialogView" Height="600" Width="1100" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+    <hc:TransitioningContentControl TransitionMode="Right2LeftWithFade">
+        <Border Background="{DynamicResource RegionBrush}" CornerRadius="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="170"/>
+                </Grid.RowDefinitions>
+                <TextBlock Margin="0 20 0 0" HorizontalAlignment="Center" TextAlignment="Center" FontSize="30" FontWeight="Bold" Text="{Binding Title,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Style="{DynamicResource TextBlockTitle}" Foreground="{DynamicResource PrimaryBrush}"/>
+
+                <Grid Grid.Row="1" Margin="0 0 0 0" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <DockPanel Grid.Column="0" Grid.Row="0" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock Width="130" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                        <Run Text="{DynamicResource Name}"></Run>
+                        <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:TextBox Width="200" Text="{Binding Entity.RealName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="40" FontSize="20"  hc:InfoElement.ShowClearButton="True"></hc:TextBox>
+                    </DockPanel>
+                    <DockPanel Grid.Column="1" Grid.Row="0" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock Width="130" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                        <Run Text="{DynamicResource DepartmentName}"></Run>
+                        <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:ComboBox Width="200" x:Name="cbo_d"  ItemsSource="{Binding DepartmentList,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="DepartmentName" SelectedValue="{Binding Entity.DepartmentId,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Id" Height="40" FontSize="20">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding cboCommand}">
+                                        <i:InvokeCommandAction.CommandParameter>
+                                            <MultiBinding Converter="{StaticResource mpcv}">
+                                                <Binding ElementName="cbo_d" Path="SelectedValue"></Binding>
+                                            </MultiBinding>
+                                        </i:InvokeCommandAction.CommandParameter>
+                                    </i:InvokeCommandAction>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </hc:ComboBox>
+                    </DockPanel>
+                    <DockPanel  Grid.Column="2" Grid.Row="0" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock Width="130" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                        <Run Text="{DynamicResource PositionName}"></Run>
+                        <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:ComboBox  Width="200"  ItemsSource="{Binding PositionList,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="PositionName" SelectedValue="{Binding Entity.PositionId,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Id" Height="40" FontSize="20"></hc:ComboBox>
+                    </DockPanel>
+
+                    <DockPanel Grid.Column="0" Grid.Row="1" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock Width="130" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25"  Foreground="{DynamicResource PrimaryTextBrush}">
+                        <Run Text="{DynamicResource Sex}"></Run>
+                        <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:ComboBox hc:InfoElement.ShowClearButton="True" Width="200" SelectedValue="{Binding Entity.Sex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Content"  Height="40" FontSize="20">
+                            <ComboBoxItem Content="男"></ComboBoxItem>
+                            <ComboBoxItem Content="女"></ComboBoxItem>
+                        </hc:ComboBox>
+                    </DockPanel>
+                    <DockPanel Grid.Column="1" Grid.Row="1" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock Width="130" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                        <Run Text="{DynamicResource Salary}"></Run>
+                        <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:NumericUpDown  DecimalPlaces="2"  Maximum="10000" Value="{Binding Entity.Salary,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" FontSize="20" Minimum="0" Width="200" Height="40"/>
+                    </DockPanel>
+                    <DockPanel Grid.Column="2" Grid.Row="1" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock Width="130" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                        <Run Text="{DynamicResource Education}"></Run>
+                        <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:ComboBox hc:InfoElement.ShowClearButton="True" Width="200" SelectedValue="{Binding Entity.Education,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Content" Height="40" FontSize="20">
+                            <ComboBoxItem Content="幼儿园"></ComboBoxItem>
+                            <ComboBoxItem Content="学前班"></ComboBoxItem>
+                            <ComboBoxItem Content="小学"></ComboBoxItem>
+                            <ComboBoxItem Content="初中"></ComboBoxItem>
+                            <ComboBoxItem Content="中专"></ComboBoxItem>
+                            <ComboBoxItem Content="高中"></ComboBoxItem>
+                            <ComboBoxItem Content="大专"></ComboBoxItem>
+                            <ComboBoxItem Content="本科"></ComboBoxItem>
+                        </hc:ComboBox>
+                    </DockPanel>
+
+                    <DockPanel Grid.Column="0" Grid.Row="2" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock Width="130" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                       <Run Text="{DynamicResource BornDate}"></Run>
+                       <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:DatePicker  hc:InfoElement.ShowClearButton="True" Width="200" hc:InfoElement.Placeholder="日期" Text="{Binding Entity.BornDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="40" hc:InfoElement.Necessary="True"/>
+                        <!--<TextBox Width="200" Text="{Binding Entity.BornDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="40" FontSize="20"></TextBox>-->
+                    </DockPanel>
+                    <DockPanel Grid.Column="1" Grid.Row="2"  LastChildFill="False"  HorizontalAlignment="Center">
+                        <TextBlock Width="130" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                        <Run Text="{DynamicResource Phone}"></Run>
+                        <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:TextBox  hc:InfoElement.ShowClearButton="True" Width="200" Text="{Binding Entity.Phone,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="40" FontSize="20"></hc:TextBox>
+                    </DockPanel>
+                    <DockPanel Grid.Column="2" Grid.Row="2" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock Width="130" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                        <Run Text="{DynamicResource Address}"></Run>
+                        <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:TextBox  hc:InfoElement.ShowClearButton="True" Width="200" Text="{Binding Entity.Address,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="40" FontSize="20"></hc:TextBox>
+                    </DockPanel>
+
+                    <DockPanel Grid.Column="0" Grid.Row="3" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock Width="130"  VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                       <Run Text="{DynamicResource PostalCode}"></Run>
+                       <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:TextBox  hc:InfoElement.ShowClearButton="True" Width="200" Text="{Binding Entity.PostalCode,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="40" FontSize="20"></hc:TextBox>
+                    </DockPanel>
+                    <DockPanel Grid.Column="1" Grid.Row="3" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock Width="130" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right"  FontSize="25"  Foreground="{DynamicResource PrimaryTextBrush}">
+                        <Run Text="{DynamicResource Email}"></Run>
+                        <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:TextBox  hc:InfoElement.ShowClearButton="True" Width="200" Text="{Binding Entity.Email,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="40" FontSize="20"></hc:TextBox>
+                    </DockPanel>
+                    <DockPanel  Grid.Column="2" Grid.Row="3" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock Width="130" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right"  FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                        <Run Text="{DynamicResource Remark}"></Run>
+                        <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:TextBox  hc:InfoElement.ShowClearButton="True" Width="200" Text="{Binding Entity.Remark,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="40" FontSize="20"></hc:TextBox>
+                    </DockPanel>
+                </Grid>
+                <StackPanel Grid.Row="2" Margin="0 20 0 0">
+
+                    <Button Content="{DynamicResource Enter}" Style="{DynamicResource ButtonDefault}" Command="{Binding enterCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=local:EmployeDialogView}}" Height="45" Width="200" FontSize="20" FontWeight="Bold" ></Button>
+                    <Button Content="{DynamicResource Close}" Style="{DynamicResource ButtonDefault}" Command="{Binding closeCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=local:EmployeDialogView}}" Height="45" Width="200" FontSize="20" FontWeight="Bold" Margin="0 10 0 0"></Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </hc:TransitioningContentControl>
+</Window>
+    
+    

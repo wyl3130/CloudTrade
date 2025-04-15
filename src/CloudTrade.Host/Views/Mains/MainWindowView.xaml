@@ -1,0 +1,360 @@
+﻿<Window x:Class="CloudTrade.Host.Views.Mains.MainWindowView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CloudTrade.Host.Views.Mains"
+        xmlns:prism="http://prismlibrary.com/"
+        prism:ViewModelLocator.AutoWireViewModel="True" 
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        xmlns:share="clr-namespace:CloudTrade.Domain.Shared.Prisms;assembly=CloudTrade.Domain.Shared"
+        mc:Ignorable="d" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        Title="MainWindowView" Height="768" Width="1360"
+        WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True" Background="Transparent" MouseLeftButtonDown="Window_MouseLeftButtonDown"
+>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/CloudTrade.Host;component/Resources/Styles/TabControl.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <!-- 使用 Interaction.Triggers 来绑定事件触发行为 -->
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <hc:TransitioningContentControl TransitionMode="Right2LeftWithFade">
+        <Border CornerRadius="10">
+            <Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="230"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" CornerRadius="10 0 0 10" Background="{DynamicResource DarkDefaultBrush}" VerticalAlignment="Stretch">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <!-- 自动高度 -->
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <!-- 自动高度 -->
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <!-- 自动高度 -->
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" CornerRadius="10" Background="{DynamicResource RegionBrush}" Margin="5 5 0 0" Height="40">
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Run Text="&#xf0c2;" FontSize="25" FontFamily="{StaticResource fontawesome}">
+                                <Run.Foreground>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                        <GradientStop Color="#98F5FF" Offset="0" />
+                                        <GradientStop Color="{DynamicResource DefaultColor}" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Run.Foreground>
+                            </Run>
+                            <Run Text="{DynamicResource CloudTrade}" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}"></Run>
+                                </TextBlock>
+                            </Border>
+                            <!--<ContentControl Grid.Row="1" prism:RegionManager.RegionName="{x:Static share:RegionNames.LeftMenuRegion}" Width="230"  Margin="0 0 0 5"></ContentControl>-->
+                            <Border Grid.Row="1" Margin="5 5 0 0" CornerRadius="10" Background="{DynamicResource RegionBrush}">
+                                <StackPanel Margin="3">
+                                    <hc:ScrollViewer  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                                        <hc:SideMenu AutoSelect="False">
+                                            <hc:Interaction.Triggers>
+                                                <hc:EventTrigger EventName="SelectionChanged">
+                                                    <hc:EventToCommand Command="{Binding SwitchItemCommand}" PassEventArgsToCommand="True" />
+                                                </hc:EventTrigger>
+                                            </hc:Interaction.Triggers>
+                                            <hc:SideMenuItem Header="{DynamicResource Home}" FontSize="18" FontWeight="Bold">
+                                                <hc:SideMenuItem.Icon>
+                                                    <TextBlock Text="&#xf015;" FontFamily="{StaticResource fontawesome}" FontSize="20"></TextBlock>
+                                                </hc:SideMenuItem.Icon>
+                                                <hc:SideMenuItem Header="{DynamicResource Dashboard}">
+
+                                                    <hc:SideMenuItem.Icon>
+                                                        <TextBlock Text="&#xf0e4;" FontFamily="{StaticResource fontawesome}" FontSize="18"></TextBlock>
+                                                    </hc:SideMenuItem.Icon>
+
+                                                </hc:SideMenuItem>
+                                            </hc:SideMenuItem>
+                                            <hc:SideMenuItem Header="{DynamicResource SalesManagement}"  FontSize="18" FontWeight="Bold">
+                                                <hc:SideMenuItem.Icon>
+                                                    <TextBlock Text="&#xf24e;" FontFamily="{StaticResource fontawesome}" FontSize="20"></TextBlock>
+                                                </hc:SideMenuItem.Icon>
+                                                <hc:SideMenuItem Header="{DynamicResource SalesOrder}">
+
+                                                </hc:SideMenuItem>
+                                                <hc:SideMenuItem Header="{DynamicResource SalesExWareHouse}">
+
+                                                </hc:SideMenuItem>
+                                                <hc:SideMenuItem Header="{DynamicResource SalesRefund}">
+
+                                                </hc:SideMenuItem>
+                                            </hc:SideMenuItem>
+                                            <hc:SideMenuItem Header="{DynamicResource PurchaseManagement}"  FontSize="18" FontWeight="Bold">
+                                                <hc:SideMenuItem.Icon>
+                                                    <TextBlock Text="&#xf07a;" FontFamily="{StaticResource fontawesome}" FontSize="20"></TextBlock>
+                                                </hc:SideMenuItem.Icon>
+                                                <hc:SideMenuItem Header="{DynamicResource PurchaseOrder}">
+
+                                                </hc:SideMenuItem>
+                                                <hc:SideMenuItem Header="{DynamicResource PurchaseExWareHouse}">
+
+                                                </hc:SideMenuItem>
+                                                <hc:SideMenuItem Header="{DynamicResource PurchaseRefund}">
+
+                                                </hc:SideMenuItem>
+                                            </hc:SideMenuItem>
+                                            <hc:SideMenuItem Header="{DynamicResource PersonnelManagement}"  FontSize="18" FontWeight="Bold">
+                                                <hc:SideMenuItem.Icon>
+                                                    <TextBlock Text="&#xf0c0;" FontFamily="{StaticResource fontawesome}" FontSize="20"></TextBlock>
+                                                </hc:SideMenuItem.Icon>
+                                                <hc:SideMenuItem Header="{DynamicResource Department}">
+
+                                                </hc:SideMenuItem>
+                                                <hc:SideMenuItem Header="{DynamicResource Position}">
+
+                                                </hc:SideMenuItem>
+                                                <hc:SideMenuItem Header="{DynamicResource Employees}">
+
+                                                </hc:SideMenuItem>
+                                            </hc:SideMenuItem>
+                                            <hc:SideMenuItem Header="{DynamicResource FinancialManagement}"  FontSize="18" FontWeight="Bold">
+                                                <hc:SideMenuItem.Icon>
+                                                    <TextBlock Text="&#xf157;" FontFamily="{StaticResource fontawesome}" FontSize="20"></TextBlock>
+                                                </hc:SideMenuItem.Icon>
+                                                <hc:SideMenuItem Header="{DynamicResource Receipt}">
+
+                                                </hc:SideMenuItem>
+                                                <hc:SideMenuItem Header="{DynamicResource Payments}">
+
+                                                </hc:SideMenuItem>
+                                                <hc:SideMenuItem Header="{DynamicResource OtherFinance}">
+
+                                                </hc:SideMenuItem>
+                                            </hc:SideMenuItem>
+                                            <hc:SideMenuItem Header="{DynamicResource IntegratedManagement}"  FontSize="18" FontWeight="Bold">
+                                                <hc:SideMenuItem.Icon>
+                                                    <TextBlock Text="&#xf00a;" FontFamily="{StaticResource fontawesome}" FontSize="20"></TextBlock>
+                                                </hc:SideMenuItem.Icon>
+                                                <hc:SideMenuItem Header="{DynamicResource PaymentCategory}">
+
+                                                </hc:SideMenuItem>
+                                                <hc:SideMenuItem Header="{DynamicResource PaymentAccount}">
+
+                                                </hc:SideMenuItem>
+                                                <hc:SideMenuItem Header="{DynamicResource FinanceCategory}">
+
+                                                </hc:SideMenuItem>
+                                                <hc:SideMenuItem Header="{DynamicResource CustomerCategory}">
+
+                                                </hc:SideMenuItem>
+                                                <hc:SideMenuItem Header="{DynamicResource CustomerCompany}">
+
+                                                </hc:SideMenuItem>
+                                                <hc:SideMenuItem Header="{DynamicResource ModeInfo}">
+
+                                                </hc:SideMenuItem>
+                                                <hc:SideMenuItem Header="{DynamicResource SalesMode}">
+
+                                                </hc:SideMenuItem>
+                                            </hc:SideMenuItem>
+                                            <hc:SideMenuItem Header="{DynamicResource StockManagement}"  FontSize="18" FontWeight="Bold">
+                                                <hc:SideMenuItem.Icon>
+                                                    <TextBlock Text="&#xf1b2;" FontFamily="{StaticResource fontawesome}" FontSize="20"></TextBlock>
+                                                </hc:SideMenuItem.Icon>
+                                                <hc:SideMenuItem Header="{DynamicResource WareHouse}">
+                                                </hc:SideMenuItem>
+                                            </hc:SideMenuItem>
+                                            <hc:SideMenuItem Header="{DynamicResource CommodityManagement}"  FontSize="18" FontWeight="Bold">
+                                                <hc:SideMenuItem.Icon>
+                                                    <TextBlock Text="&#xf1b3;" FontFamily="{StaticResource fontawesome}" FontSize="20"></TextBlock>
+                                                </hc:SideMenuItem.Icon>
+                                                <hc:SideMenuItem Header="{DynamicResource CommodityCategory}">
+
+                                                    <hc:SideMenuItem.Icon>
+                                                        <TextBlock Text="&#xf015;" FontFamily="{StaticResource fontawesome}" FontSize="20"></TextBlock>
+                                                    </hc:SideMenuItem.Icon>
+
+                                                </hc:SideMenuItem>
+                                                <hc:SideMenuItem Header="{DynamicResource CommodityCompany}">
+
+                                                    <hc:SideMenuItem.Icon>
+                                                        <TextBlock Text="&#xf015;" FontFamily="{StaticResource fontawesome}" FontSize="20"></TextBlock>
+                                                    </hc:SideMenuItem.Icon>
+
+                                                </hc:SideMenuItem>
+                                                <hc:SideMenuItem Header="{DynamicResource Commodity}">
+
+                                                    <hc:SideMenuItem.Icon>
+                                                        <TextBlock Text="&#xf015;" FontFamily="{StaticResource fontawesome}" FontSize="20"></TextBlock>
+                                                    </hc:SideMenuItem.Icon>
+
+                                                </hc:SideMenuItem>
+                                            </hc:SideMenuItem>
+                                            <hc:SideMenuItem Header="{DynamicResource DataQuery}"  FontSize="18" FontWeight="Bold">
+                                                <hc:SideMenuItem.Icon>
+                                                    <TextBlock Text="&#xf1c0;" FontFamily="{StaticResource fontawesome}" FontSize="20"></TextBlock>
+                                                </hc:SideMenuItem.Icon>
+                                                <hc:SideMenuItem Header="{DynamicResource CommodityStock}">
+                                                    <hc:SideMenuItem.Icon>
+                                                        <TextBlock Text="&#xf015;" FontFamily="{StaticResource fontawesome}" FontSize="20"></TextBlock>
+                                                    </hc:SideMenuItem.Icon>
+                                                </hc:SideMenuItem>
+                                            </hc:SideMenuItem>
+                                            <hc:SideMenuItem Header="{DynamicResource Reports}" FontSize="18" FontWeight="Bold">
+                                                <hc:SideMenuItem.Icon>
+                                                    <TextBlock Text="&#xf015;" FontFamily="{StaticResource fontawesome}" FontSize="20"></TextBlock>
+                                                </hc:SideMenuItem.Icon>
+                                                <hc:SideMenuItem Header="首页">
+                                                    <hc:SideMenuItem.Icon>
+                                                        <TextBlock Text="&#xf015;" FontFamily="{StaticResource fontawesome}" FontSize="20"></TextBlock>
+                                                    </hc:SideMenuItem.Icon>
+                                                </hc:SideMenuItem>
+                                            </hc:SideMenuItem>
+                                            <hc:SideMenuItem Header="{DynamicResource SystemInfo}"  FontSize="18" FontWeight="Bold">
+                                                <hc:SideMenuItem.Icon>
+                                                    <TextBlock Text="&#xf129;" FontFamily="{StaticResource fontawesome}" FontSize="20"></TextBlock>
+                                                </hc:SideMenuItem.Icon>
+                                                <hc:SideMenuItem Header="{DynamicResource SystemInfo}">
+
+                                                </hc:SideMenuItem>
+                                                <hc:SideMenuItem Header="{DynamicResource CompanyInfo}">
+
+                                                </hc:SideMenuItem>
+                                            </hc:SideMenuItem>
+                                        </hc:SideMenu>
+                                    </hc:ScrollViewer>
+
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Row="2" CornerRadius="10" Background="{DynamicResource RegionBrush}" Margin="5 5 0 0">
+                                <StackPanel  HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal">
+                                        <!--<ToggleButton Margin="0 0 10 0" Command="{Binding SwitchCommand}" hc:ToggleButtonAttach.ShowLabel="True" Content="{Binding AppData.SwitchMode,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" HorizontalAlignment="Left" Style="{StaticResource ToggleButtonSwitch}" hc:VisualElement.HighlightBrush="{DynamicResource SuccessBrush}" Foreground="{DynamicResource PrimaryTextBrush}"/>-->
+                                        <Button Content="&#xf013;" Background="{DynamicResource RegionBrush}" FontSize="25" Height="35" Width="50"  VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding AppSetCommand}"  FontFamily="{StaticResource fontawesome}"></Button>
+                                        <TextBlock Text="{DynamicResource Set}" Foreground="{DynamicResource PrimaryTextBrush}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10" FontSize="20" FontWeight="Bold"></TextBlock>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Row="3" CornerRadius="10" Background="{DynamicResource RegionBrush }" Margin="5 5 0 5">
+                                <StackPanel  HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <StackPanel  Orientation="Horizontal">
+                                        <hc:Gravatar Height="45" Width="45" Style="{StaticResource GravatarCircleImg}">
+                                            <Image Source="pack://application:,,,/CloudTrade.Host;component/Resources/Images/avatar.jpg"/>
+                                        </hc:Gravatar>
+                                        <TextBlock Text="{Binding AppData.user.UserName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Foreground="{DynamicResource PrimaryTextBrush}" Margin="0 0 10 0" FontSize="15" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center"></TextBlock>
+                                        <Button Command="{Binding LogoutCommand}" Content="&#xf061;" FontSize="20"  Height="34" Width="50" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="{StaticResource fontawesome}" Foreground="{StaticResource DangerBrush}"></Button>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Border>
+                    <Border Grid.Column="1" CornerRadius="0 10 10 0" Background="{DynamicResource DarkDefaultBrush}"  BorderThickness="0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="45"></RowDefinition>
+                                <!--<RowDefinition Height="45"></RowDefinition>-->
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="30"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" CornerRadius="10" Background="{DynamicResource RegionBrush}" Margin="5 5 5 0" MouseLeftButtonDown="StackPanel_MouseLeftButtonDown">
+                                <Grid ShowGridLines="False">
+                                    <!-- 创建两列，第一列用于显示内容，第二列用于按钮 -->
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <!-- 第一列占用剩余空间 -->
+                                        <ColumnDefinition Width="Auto" />
+                                        <!-- 第二列宽度自动 -->
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Column="0" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" Orientation="Horizontal">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Command="{Binding LastCommand}" Content="&#xf104;" FontFamily="{StaticResource fontawesome}"></Button>
+                                            <Button Command="{Binding NextCommand}" Content="&#xf105;" FontFamily="{StaticResource fontawesome}"></Button>
+                                            <Button Command="{Binding RefreshCommand}" Content="&#xf01e;" FontFamily="{StaticResource fontawesome}"></Button>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <hc:Shield Subject=".net" Status="9" Color="#1182c3" />
+                                            <hc:Shield Subject="c#" Status="12" Margin="4,0,0,0" Color="#1182c3" />
+                                            <hc:Shield Subject="VS" Status="2022" Margin="4,0,0,0" Color="#1182c3" />
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <!-- 第二列包含关闭、最大化和最小化按钮 -->
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Orientation="Horizontal" Margin="0 0 5 0">
+                                        <Border BorderThickness="0" CornerRadius="5">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button Content="&#xf068;" FontFamily="{StaticResource fontawesome}" Margin="5 0 0 0" Command="{Binding minCommand}" />
+                                                <Button Content="&#xf068;" FontFamily="{StaticResource fontawesome}" Margin="5 0 0 0" Command="{Binding maxCommand}" />
+                                                <Button Content="&#xf00d;" FontFamily="{StaticResource fontawesome}" Margin="5 0 0 0" Command="{Binding hideCommand}" />
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+
+                            <!--<Border Grid.Row="1"  CornerRadius="10" Background="{DynamicResource RegionBrush}" Margin="5 5 5 0">
+
+                            </Border>-->
+
+                            <Border Grid.Row="1">
+                                <ContentControl prism:RegionManager.RegionName="MainRegion"></ContentControl>
+                            </Border>
+                            <!--<Border Grid.Row="2">
+                                <TabControl prism:RegionManager.RegionName="{x:Static share:RegionNames.MainRegion}"
+
+             Style="{DynamicResource TabControlSelectViewStyle}"
+             Background="Transparent" BorderThickness="0" Margin="15">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Loaded">
+                                            <i:InvokeCommandAction Command="{Binding TabControlLoadedCommand}"
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=TabControl}}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TabControl>
+                            </Border>-->
+
+                            <Border Grid.Row="2" CornerRadius="10" Background="{DynamicResource RegionBrush}" Margin="5 0 5 5">
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <!--<TextBlock FontWeight="Bold">
+                        <Run Text="当前登录："></Run>
+                        <Run Text="administrator"></Run>
+                    </TextBlock>-->
+                                        <TextBlock Margin="15 0 0 0" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextBrush}">
+                        <Run Text="{DynamicResource Date}"></Run>
+                        <Run Text="："></Run>
+                        <Run Text="{Binding Date}"></Run>
+                                            <Run Text="{Binding Weekday}"></Run>
+                                        </TextBlock>
+                                        <!--<TextBlock Margin="15 0 0 0" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextBrush}">
+                        <Run Text="{DynamicResource Weekday}"></Run>
+                        <Run Text=":"></Run>
+                        <Run Text="{Binding Weekday}"></Run>
+                                        </TextBlock>-->
+                                        <TextBlock Margin="15 0 0 0" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextBrush}">
+                        <Run Text="{DynamicResource Time}"></Run>
+                        <Run Text="："></Run>
+                        <Run Text="{Binding Time}"></Run>
+                                        </TextBlock>
+                                    </StackPanel>
+                                    <!--<StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
+                                        <TextBlock TextAlignment="Right" Text="开发测试阶段，并非产品最终品质" Foreground="{StaticResource PrimaryBrush}" FontWeight="Bold" Margin="570 0 0 0"></TextBlock>
+                                    </StackPanel>-->
+
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Border>
+                </Grid>
+                <Border CornerRadius="10" Opacity="0.5" Visibility="{Binding IsHidden}"  Background="gray" ></Border>
+            </Grid>
+        </Border>
+    </hc:TransitioningContentControl>
+</Window>

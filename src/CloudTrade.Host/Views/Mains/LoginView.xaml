@@ -1,0 +1,98 @@
+﻿<Window x:Class="CloudTrade.Host.Views.Mains.LoginView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CloudTrade.Host.Views.Mains"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:prism="http://prismlibrary.com/"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+         xmlns:hc="https://handyorg.github.io/handycontrol"
+        xmlns:pwh="clr-namespace:CloudTrade.Host.Resources.Helper"
+        xmlns:pwb="clr-namespace:CloudTrade.Host.Resources.Behaviors"
+        mc:Ignorable="d"
+        Title="LoginView" Height="550" Width="1000"
+         WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True" Background="Transparent" MouseLeftButtonDown="Window_MouseLeftButtonDown"
+
+        >
+    <hc:TransitioningContentControl TransitionMode="Right2LeftWithFade">
+        <Border CornerRadius="10">
+            <Border.Background>
+                <ImageBrush ImageSource="pack://application:,,,/CloudTrade.Host;component/Resources/Images/userLogin.jpg"></ImageBrush>
+            </Border.Background>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="600"></ColumnDefinition>
+                    <ColumnDefinition Width="400"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" CornerRadius="10 0 0 10">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="CloudTrade - 云商" Foreground="White" FontSize="50" HorizontalAlignment="Center"></TextBlock>
+                        <TextBlock Text="由wpf prism handycontrol + ddd 开发的进销存系统 " Foreground="White" FontSize="15" HorizontalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="1" CornerRadius="0 10 10 0" Background="White" BorderThickness="0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="0.7*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0" CornerRadius="0 10 10 0" Background="White">
+                            <StackPanel  HorizontalAlignment="Right">
+                                <Button FontFamily="{StaticResource fontawesome}" FontSize="20"
+                                        Content="&#xf00d;" 
+                                        Background="Transparent" Margin="2"
+                                        BorderThickness="0"
+                                        Command="{Binding CloseCommand}"
+                                        ></Button>
+                            </StackPanel>
+                        </Border>
+                        <StackPanel Grid.Row="1" VerticalAlignment="Center">
+                            <TextBlock FontSize="35" FontWeight="Bold"
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center" >
+                            <Run Text="登录到"></Run>
+                            <Run Text="-"></Run>
+                            <Run Text="云商" Foreground="{StaticResource PrimaryBrush}"></Run>
+                            </TextBlock>
+                            <TextBlock FontSize="15" Margin="0 10 0 0"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="云" Foreground="{StaticResource PrimaryBrush}"></Run>
+                            <Run Text="是无限的可能"></Run>
+                            </TextBlock>
+                        </StackPanel>
+                        <StackPanel Grid.Row="2">
+                            <hc:TextBox Width="250" FontSize="15" Height="40" Margin="0 15 0 0"
+                                 hc:InfoElement.Placeholder="用户名" 
+                                 hc:InfoElement.Necessary="True" 
+                                 hc:InfoElement.ShowClearButton="True" Text="{Binding UserName}"
+                                 ></hc:TextBox>
+                            <!--<hc:TextBox Width="250" FontSize="15" Height="40" Margin="0 15 0 0"
+                                 hc:InfoElement.Placeholder="密码" 
+                                 hc:InfoElement.Necessary="True" 
+                                 hc:InfoElement.ShowClearButton="True" Text="{Binding PassWord}"
+                                 ></hc:TextBox>-->
+                            <PasswordBox Width="250" FontSize="15" Height="40" Margin="0 15 0 0"
+                    
+                                            >
+                                <i:Interaction.Behaviors>
+                                    <pwb:PasswordBoxBehavior Password="{Binding PassWord}"></pwb:PasswordBoxBehavior>
+                                </i:Interaction.Behaviors>
+                            </PasswordBox>
+                            <Button Width="250" FontSize="20" Height="40" Margin="0 15 0 0"
+                            Style="{StaticResource ButtonPrimary}" Command="{Binding LoginCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=local:LoginView}}">登录</Button>
+                            <Button Width="250" FontSize="20" Height="40" Margin="0 15 0 0"
+                                Style="{StaticResource ButtonDefault}" Foreground="{StaticResource PrimaryBrush}"
+                            >注册</Button>
+                        </StackPanel>
+                    </Grid>
+
+
+
+                </Border>
+            </Grid>
+        </Border>
+    </hc:TransitioningContentControl>
+</Window>

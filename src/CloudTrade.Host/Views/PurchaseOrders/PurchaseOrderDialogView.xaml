@@ -1,0 +1,237 @@
+﻿<Window x:Class="CloudTrade.Host.Views.PurchaseOrders.PurchaseOrderDialogView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CloudTrade.Host.Views.PurchaseOrders"
+        mc:Ignorable="d"
+   xmlns:hc="https://handyorg.github.io/handycontrol"  xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        AllowsTransparency="True"
+        Foreground="{x:Null}"
+        Background="{x:Null}"
+        FocusVisualStyle="{x:Null}"
+        WindowStyle="None"
+        Title="CommodityCategoryDialogView" Height="700" Width="1350" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+    <hc:TransitioningContentControl TransitionMode="Top2Bottom">
+        <Border Background="{DynamicResource RegionBrush}" CornerRadius="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="150"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="110"></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Margin="0 10 0 0" HorizontalAlignment="Center" TextAlignment="Center" FontSize="30" FontWeight="Bold" Text="{Binding Title,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Style="{DynamicResource TextBlockTitle}" Foreground="{DynamicResource PrimaryBrush}"/>
+
+                <Grid Grid.Row="1" Margin="0 20 0 0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <DockPanel Grid.Column="0" Grid.Row="0" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                            <Run Text="{DynamicResource CustomerCompanyName}"></Run>
+                            <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:ComboBox ItemsSource="{Binding CustomerCompanyList}" SelectedValue="{Binding Entity.CustomerCompanyId}" SelectedValuePath="Id" DisplayMemberPath="CustomerCompanyName" Width="200"  Height="40" FontSize="20" hc:InfoElement.ShowClearButton="True"></hc:ComboBox>
+                    </DockPanel>
+                    <DockPanel Grid.Column="1" Grid.Row="0" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                            <Run Text="{DynamicResource RealName}"></Run>
+                            <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:ComboBox ItemsSource="{Binding EmployeList}" SelectedValue="{Binding Entity.RealName}" SelectedValuePath="RealName" DisplayMemberPath="RealName" Width="200"   Height="40" FontSize="20" hc:InfoElement.ShowClearButton="True"></hc:ComboBox>
+                    </DockPanel>
+                    <DockPanel Grid.Column="2" Grid.Row="0" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                            <Run Text="{DynamicResource WareHouseName}"></Run>
+                            <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:ComboBox Width="200" ItemsSource="{Binding WareHouseList,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Id" SelectedValue="{Binding Entity.WareHouseId,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="WareHouseName" Height="40" FontSize="20" hc:InfoElement.ShowClearButton="True"></hc:ComboBox>
+                    </DockPanel>
+                    <DockPanel Grid.Column="3" Grid.Row="0" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                            <Run Text="{DynamicResource Date}"></Run>
+                            <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:DateTimePicker Width="200"  Text="{Binding Entity.WareHouseDate}"  Height="40" FontSize="20" hc:InfoElement.ShowClearButton="True"></hc:DateTimePicker>
+                    </DockPanel>
+
+                    <DockPanel Grid.Column="0" Grid.Row="1" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                            <Run Text="{DynamicResource OrderState}"></Run>
+                            <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:ComboBox Width="200"  SelectedIndex="{Binding Entity.OrderState}" Height="40" FontSize="20" hc:InfoElement.ShowClearButton="True">
+                            <ComboBoxItem Content="未审核"></ComboBoxItem>
+                            <ComboBoxItem Content="已审核"></ComboBoxItem>
+                        </hc:ComboBox>
+                    </DockPanel>
+                    <DockPanel Grid.Column="1" Grid.Row="1" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                            <Run Text="{DynamicResource Preparer}"></Run>
+                            <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:TextBox IsReadOnly="True"   Width="200"  Text="{Binding Entity.Preparer,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="40" FontSize="20" hc:InfoElement.ShowClearButton="True"></hc:TextBox>
+                    </DockPanel>
+                    <DockPanel Grid.Column="2" Grid.Row="1" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock Width="130"  VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                            <Run Text="{DynamicResource Remark}"></Run>
+                            <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:TextBox Width="200"  Text="{Binding Entity.Remark}" Height="40" FontSize="20" hc:InfoElement.ShowClearButton="True"></hc:TextBox>
+                    </DockPanel>
+                </Grid>
+
+                <Grid Grid.Row="2" Margin="0 30 0 0">
+                    <Border CornerRadius="10" Background="{DynamicResource RegionBrush}" >
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Text="&#xf1b3;" TextAlignment="Center" FontSize="100" FontFamily="{StaticResource fontawesome}" Foreground="{DynamicResource PrimaryBrush}"></TextBlock>
+                            <TextBlock Text="{DynamicResource NoData}" TextAlignment="Center" FontSize="100" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}"></TextBlock>
+                        </StackPanel>
+                    </Border>
+                    <DataGrid  x:Name="dg"   hc:DataGridAttach.ShowRowNumber="True"  Visibility="{Binding PurchaseOrderItemList.Count,Converter={StaticResource btcv}}" hc:DataGridAttach.CanUnselectAllWithBlankArea="True" HeadersVisibility="All" RowHeaderWidth="60" AutoGenerateColumns="False" ItemsSource="{Binding PurchaseOrderItemList,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{DynamicResource CommodityName}" Binding="{Binding CommodityName}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="{DynamicResource Amount}" Binding="{Binding Amount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="含税单价" Binding="{Binding TaxPrice,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="含税金额" Binding="{Binding TaxAmount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.Header>
+                                    <TextBlock Text="{DynamicResource Price}"></TextBlock>
+                                </DataGridTemplateColumn.Header>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <hc:NumericUpDown  Value="{Binding Price,Mode=TwoWay,UpdateSourceTrigger=LostFocus}" Width="120" DecimalPlaces="2" Minimum="0" >
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="LostFocus">
+                                                    <i:InvokeCommandAction Command="{Binding DataContext.ColumnUpdateCommand, RelativeSource={RelativeSource AncestorType=Window}}" >
+
+                                                    </i:InvokeCommandAction>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </hc:NumericUpDown>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.Header>
+                                    <TextBlock Text="{DynamicResource Count}"></TextBlock>
+                                </DataGridTemplateColumn.Header>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <hc:NumericUpDown Value="{Binding Count,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"  Width="120"  Minimum="0">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="LostFocus">
+                                                    <i:InvokeCommandAction Command="{Binding DataContext.ColumnUpdateCommand, RelativeSource={RelativeSource AncestorType=Window}}" >
+
+                                                    </i:InvokeCommandAction>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </hc:NumericUpDown>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.Header>
+                                    <TextBlock Text="{DynamicResource Tax}"></TextBlock>
+                                </DataGridTemplateColumn.Header>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <hc:NumericUpDown Value="{Binding Tax,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"  Width="120" DecimalPlaces="2" Minimum="0">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="LostFocus">
+                                                    <i:InvokeCommandAction Command="{Binding DataContext.ColumnUpdateCommand, RelativeSource={RelativeSource AncestorType=Window}}" >
+
+                                                    </i:InvokeCommandAction>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </hc:NumericUpDown>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.Header>
+                                    <TextBlock Text="{DynamicResource Rebate}"></TextBlock>
+                                </DataGridTemplateColumn.Header>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <hc:NumericUpDown Value="{Binding Rebate,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"  Width="120" DecimalPlaces="2" Minimum="0">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="LostFocus">
+                                                    <i:InvokeCommandAction Command="{Binding DataContext.ColumnUpdateCommand, RelativeSource={RelativeSource AncestorType=Window}}" >
+
+                                                    </i:InvokeCommandAction>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </hc:NumericUpDown>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn> 
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.Header>
+                                    <TextBlock Text="{DynamicResource ModeInfo}"></TextBlock>
+                                </DataGridTemplateColumn.Header>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <hc:ComboBox ItemsSource="{Binding DataContext.ModeInfoList,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType=Window}}"
+                                                     DisplayMemberPath="ModeInfoName" Width="120"
+                                                     SelectedValue="{Binding ModeInfoId,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                     SelectedValuePath="Id"
+                                                     ></hc:ComboBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.Header>
+                                    <TextBlock Text="{DynamicResource Remark}"></TextBlock>
+                                </DataGridTemplateColumn.Header>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding Remark,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"  Width="120">
+                                            <!--<i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="TextChanged">
+                                                    <i:InvokeCommandAction Command="{Binding DataContext.ColumnUpdateCommand, RelativeSource={RelativeSource AncestorType=Window}}" >
+
+                                                    </i:InvokeCommandAction>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>-->
+                                        </TextBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.Header>
+                                    <TextBlock Text="{DynamicResource Action}"  Width="120"></TextBlock>
+                                </DataGridTemplateColumn.Header>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="{DynamicResource Delete}" Style="{DynamicResource ButtonDanger}" Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding ElementName=dg,Path=SelectedItems}"></Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                           
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </Grid>
+
+                <DockPanel LastChildFill="False" Grid.Row="3" HorizontalAlignment="Center">
+                    <Button Content="{DynamicResource Add}" Style="{DynamicResource ButtonDefault}" Command="{Binding AddCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=local:PurchaseOrderDialogView}}" Height="45" Width="200" FontSize="20" FontWeight="Bold" Margin="5"></Button>
+                    <Button Content="{DynamicResource Enter}" Style="{DynamicResource ButtonDefault}" Command="{Binding enterCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=local:PurchaseOrderDialogView}}" Height="45" Width="200" FontSize="20" FontWeight="Bold" Margin="5"></Button>
+                    <Button Content="{DynamicResource Close}" Style="{DynamicResource ButtonDefault}" Command="{Binding closeCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=local:PurchaseOrderDialogView}}" Height="45" Width="200" FontSize="20" FontWeight="Bold" Margin="5"></Button>
+                 
+                </DockPanel>
+
+            </Grid>
+            
+        </Border>
+    </hc:TransitioningContentControl>
+    
+</Window>
