@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "CloudTrade.DbMigrator": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}

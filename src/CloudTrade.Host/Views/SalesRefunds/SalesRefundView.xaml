@@ -1,0 +1,256 @@
+﻿<UserControl x:Class="CloudTrade.Host.Views.SalesRefunds.SalesRefundView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CloudTrade.Host.Views.SalesRefunds"
+             mc:Ignorable="d" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             d:DesignHeight="675" d:DesignWidth="1110">
+    <hc:TransitioningContentControl TransitionMode="Right2LeftWithFade">
+        <Border Margin="5" CornerRadius="10" Background="Transparent">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="65"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" BorderBrush="White" CornerRadius="10" Background="{DynamicResource RegionBrush}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <DockPanel HorizontalAlignment="Left" LastChildFill="False" Grid.Column="0">
+                            <Button Content="{DynamicResource Print}" Style="{DynamicResource ButtonDefault}" Command="{Binding PrintCommand}" Width="80" Height="35" FontWeight="Bold" FontSize="15" Margin="10 0 0 0"></Button>
+                            <Button Content="{DynamicResource View}" Style="{DynamicResource ButtonDefault}" Command="{Binding ViewCommand}" CommandParameter="{Binding ElementName=dg,Path=SelectedItems}" Width="80" Height="35" FontWeight="Bold" FontSize="15" Margin="10 0 0 0"></Button>
+                            <Button Content="{DynamicResource Add}" Style="{DynamicResource ButtonDefault}" Command="{Binding InsertCommand}" Width="80" Height="35" FontWeight="Bold" FontSize="15" Margin="10 0 0 0"></Button>
+                            <Button Content="{DynamicResource Delete}" Style="{DynamicResource ButtonDefault}" Command="{Binding DeleteCommand}" CommandParameter="{Binding ElementName=dg,Path=SelectedItems}" Width="80" Height="35" FontWeight="Bold" FontSize="15" Margin="10 0 0 0"></Button>
+                            <Button Content="{DynamicResource Update}" Style="{DynamicResource ButtonDefault}" Command="{Binding UpdateCommand}" CommandParameter="{Binding ElementName=dg,Path=SelectedItems}" Width="80" Height="35" FontWeight="Bold" FontSize="15" Margin="10 0 0 0"></Button>
+                            <Button Content="{DynamicResource Query}" Style="{DynamicResource ButtonDefault}" Command="{Binding SelectCommand}"  Width="80" Height="35" FontWeight="Bold" FontSize="15" Margin="10 0 0 0">
+                                <Button.CommandParameter>
+                                    <MultiBinding Converter="{StaticResource mpcv}">
+                                        <Binding ElementName="cbo_page" Path="SelectedIndex"></Binding>
+                                        <Binding ElementName="txt_query" Path="Text"></Binding>
+                                        <Binding ElementName="StartTime" Path="Text"></Binding>
+                                        <Binding ElementName="EndTime" Path="Text"></Binding>
+                                    </MultiBinding>
+                                </Button.CommandParameter>
+                            </Button>
+                            <hc:TextBox Width="200"  hc:InfoElement.ShowClearButton="True" Height="35" FontSize="15" hc:InfoElement.Placeholder="{DynamicResource Query}" x:Name="txt_query" Margin="10 0 0 0"></hc:TextBox>
+                            <hc:DatePicker Width="120" hc:InfoElement.ShowClearButton="True" Height="35" Margin="10 0 0 0" hc:InfoElement.Placeholder="{DynamicResource StartTime}" x:Name="StartTime"></hc:DatePicker>
+                            <hc:DatePicker Width="120" hc:InfoElement.ShowClearButton="True" Height="35" Margin="10 0 0 0" hc:InfoElement.Placeholder="{DynamicResource EndTime}" x:Name="EndTime"></hc:DatePicker>
+                        </DockPanel>
+                        <DockPanel Grid.Column="1">
+                            <Border CornerRadius="40" Width="40" Height="40" BorderThickness="1" BorderBrush="{DynamicResource BackgroundBrush}" Background="Gray" Margin="10">
+                                <Button Content="&#xf129;"  FontFamily="{DynamicResource fontawesome}" FontSize="20" BorderThickness="0" Background="Transparent" Foreground="White" Command="{Binding infoCommand}"></Button>
+                            </Border>
+                        </DockPanel>
+                    </Grid>
+
+                </Border>
+
+                <Border Grid.Row="1" Margin="0 5">
+                    <Grid>
+                        <Border CornerRadius="10" Background="{DynamicResource RegionBrush}" >
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock Text="&#xf1b3;" TextAlignment="Center" FontSize="100" FontFamily="{StaticResource fontawesome}" Foreground="{DynamicResource PrimaryBrush}"></TextBlock>
+                                <TextBlock Text="{DynamicResource NoData}" TextAlignment="Center" FontSize="100" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}"></TextBlock>
+                            </StackPanel>
+                        </Border>
+                        <DataGrid x:Name="dg" Visibility="{Binding SalesRefundList.Count,Converter={StaticResource btcv}}" hc:DataGridAttach.CanUnselectAllWithBlankArea="True" HeadersVisibility="All" RowHeaderWidth="60" AutoGenerateColumns="False" ItemsSource="{Binding SalesRefundList,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" >
+                            <DataGrid.RowHeaderTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding IsSelected,RelativeSource={RelativeSource AncestorType=DataGridRow}}"/>
+                                </DataTemplate>
+                            </DataGrid.RowHeaderTemplate>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="{DynamicResource Id}" Binding="{Binding Id}" Visibility="Hidden"></DataGridTextColumn>
+                                <DataGridTextColumn Header="{DynamicResource PositionName}" Binding="{Binding PositionName}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="{DynamicResource DepartmentName}" Binding="{Binding DepartmentName}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="{DynamicResource Remark}" Binding="{Binding Remark}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="{DynamicResource CreateTime}" Binding="{Binding CreateTime}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="{DynamicResource LastUpdateTime}" Binding="{Binding LastUpdateTime}"></DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </Grid>
+                </Border>
+                <Border Grid.Row="2" Background="{DynamicResource RegionBrush}" CornerRadius="10" >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <ComboBox x:Name="cbo_page"  Width="100" SelectedIndex="0">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding SelectCommand}">
+                                            <i:InvokeCommandAction.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource mpcv}">
+                                                    <Binding ElementName="cbo_page" Path="SelectedIndex"></Binding>
+                                                    <Binding ElementName="txt_query" Path="Text"></Binding>
+                                                    <Binding ElementName="StartTime" Path="Text"></Binding>
+                                                    <Binding ElementName="EndTime" Path="Text"></Binding>
+                                                </MultiBinding>
+                                            </i:InvokeCommandAction.CommandParameter>
+                                        </i:InvokeCommandAction>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                <ComboBoxItem Content="10条/页"></ComboBoxItem>
+                                <ComboBoxItem Content="20条/页"></ComboBoxItem>
+                                <ComboBoxItem Content="50条/页"></ComboBoxItem>
+
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <hc:Pagination MaxPageCount="{Binding PageCount,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" PageIndex="{Binding PageIndex,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" IsJumpEnabled="True">
+                                <hc:Interaction.Triggers>
+                                    <hc:EventTrigger EventName="PageUpdated">
+                                        <hc:EventToCommand Command="{Binding SelectCommand}"  PassEventArgsToCommand="True" >
+                                            <hc:EventToCommand.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource mpcv}">
+                                                    <Binding ElementName="cbo_page" Path="SelectedIndex"></Binding>
+                                                    <Binding ElementName="txt_query" Path="Text"></Binding>
+                                                    <Binding ElementName="StartTime" Path="Text"></Binding>
+                                                    <Binding ElementName="EndTime" Path="Text"></Binding>
+                                                </MultiBinding>
+                                            </hc:EventToCommand.CommandParameter>
+                                        </hc:EventToCommand>
+                                    </hc:EventTrigger>
+                                </hc:Interaction.Triggers>
+                            </hc:Pagination>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2"></StackPanel>
+
+
+
+                    </Grid>
+                </Border>
+                <hc:Drawer Name="DrawerTopInContainer" Dock="Top" IsOpen="{Binding IsOpen,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
+                    <Border Background="{DynamicResource RegionBrush}" Height="600" BorderBrush="{DynamicResource BorderBrush}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="1*"></RowDefinition>
+                                <RowDefinition Height="3*"></RowDefinition>
+                                <RowDefinition Height="0.5*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <TextBlock Margin="0 10 0 0" HorizontalAlignment="Center" TextAlignment="Center" FontSize="30" FontWeight="Bold"  Style="{DynamicResource TextBlockTitle}" Foreground="{DynamicResource PrimaryBrush}">
+                     <Run Text="{DynamicResource CodeNo}"></Run>
+                     <Run Text="："></Run>
+                     <Run Text="{Binding Entity.CodeNo}"></Run>
+                            </TextBlock>
+                            <Grid Grid.Row="1" Margin="0 20 0 0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <DockPanel Grid.Column="0" Grid.Row="0" LastChildFill="False" HorizontalAlignment="Center">
+                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+            <Run Text="{DynamicResource CustomerCompanyName}"></Run>
+            <Run Text="："></Run>
+                                    </TextBlock>
+                                    <TextBox Width="200" Text="{Binding Entity.CustomerCompanyName}" IsReadOnly="True" Height="40" FontSize="20" ></TextBox>
+                                </DockPanel>
+                                <DockPanel Grid.Column="1" Grid.Row="0" LastChildFill="False" HorizontalAlignment="Center">
+                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+            <Run Text="{DynamicResource RealName}"></Run>
+            <Run Text="："></Run>
+                                    </TextBlock>
+                                    <hc:TextBox Text="{Binding Entity.RealName}" IsReadOnly="True" Width="200"   Height="40" FontSize="20" ></hc:TextBox>
+                                </DockPanel>
+                                <DockPanel Grid.Column="2" Grid.Row="0" LastChildFill="False" HorizontalAlignment="Center">
+                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+            <Run Text="{DynamicResource WareHouseName}"></Run>
+            <Run Text="："></Run>
+                                    </TextBlock>
+                                    <hc:TextBox Width="200" IsReadOnly="True" Text="{Binding Entity.WareHouseName}" Height="40" FontSize="20"></hc:TextBox>
+                                </DockPanel>
+                                <DockPanel Grid.Column="3" Grid.Row="0" LastChildFill="False" HorizontalAlignment="Center">
+                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+            <Run Text="{DynamicResource Date}"></Run>
+            <Run Text="："></Run>
+                                    </TextBlock>
+                                    <hc:TextBox Width="200"  Text="{Binding Entity.WareHouseDate}" IsReadOnly="True"  Height="40" FontSize="20"></hc:TextBox>
+                                </DockPanel>
+
+                                <DockPanel Grid.Column="0" Grid.Row="1" LastChildFill="False" HorizontalAlignment="Center">
+                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+            <Run Text="{DynamicResource OrderState}"></Run>
+            <Run Text="："></Run>
+                                    </TextBlock>
+                                    <hc:TextBox Width="200" IsReadOnly="True"  Text="{Binding Entity.OrderState,Converter={StaticResource oscv}}" Height="40" FontSize="20" >
+
+                                    </hc:TextBox>
+                                </DockPanel>
+                                <DockPanel Grid.Column="1" Grid.Row="1" LastChildFill="False" HorizontalAlignment="Center">
+                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+            <Run Text="{DynamicResource Preparer}"></Run>
+            <Run Text="："></Run>
+                                    </TextBlock>
+                                    <hc:TextBox IsReadOnly="True"   Width="200"  Text="{Binding Entity.Preparer,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="40" FontSize="20" ></hc:TextBox>
+                                </DockPanel>
+                                <DockPanel Grid.Column="2" Grid.Row="1" LastChildFill="False" HorizontalAlignment="Center">
+                                    <TextBlock Width="130"  VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+            <Run Text="{DynamicResource Remark}"></Run>
+            <Run Text="："></Run>
+                                    </TextBlock>
+                                    <hc:TextBox Width="200"  Text="{Binding Entity.Remark}" Height="40" FontSize="20" IsReadOnly="True"></hc:TextBox>
+                                </DockPanel>
+                            </Grid>
+
+                            <Grid Grid.Row="2" Margin="0 30 0 0">
+                                <Border CornerRadius="10" Background="{DynamicResource RegionBrush}" >
+                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <TextBlock Text="&#xf1b3;" TextAlignment="Center" FontSize="100" FontFamily="{StaticResource fontawesome}" Foreground="{DynamicResource PrimaryBrush}"></TextBlock>
+                                        <TextBlock Text="{DynamicResource NoData}" TextAlignment="Center" FontSize="100" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}"></TextBlock>
+                                    </StackPanel>
+                                </Border>
+                                <DataGrid HeadersVisibility="All"   Visibility="{Binding PurchaseOrderItemList.Count,Converter={StaticResource btcv}}" hc:DataGridAttach.ShowRowNumber="True"  RowHeaderWidth="60" AutoGenerateColumns="False" ItemsSource="{Binding PurchaseOrderItemList,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" >
+
+                                    <!--<DataGrid.RowHeaderTemplate>
+                             <DataTemplate>
+                                 <CheckBox IsChecked="{Binding IsSelected,RelativeSource={RelativeSource AncestorType=DataGridRow}}"/>
+                             </DataTemplate>
+                         </DataGrid.RowHeaderTemplate>-->
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="{DynamicResource CommodityName}" Binding="{Binding CommodityName}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="{DynamicResource Amount}" Binding="{Binding Amount}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="含税单价" Binding="{Binding TaxPrice}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="含税金额" Binding="{Binding TaxAmount}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="{DynamicResource Price}" Binding="{Binding Price}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="{DynamicResource Count}" Binding="{Binding Count}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="{DynamicResource Tax}" Binding="{Binding Tax}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="{DynamicResource Rebate}" Binding="{Binding Rebate}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="{DynamicResource ModeInfo}" Binding="{Binding ModeInfoName}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="{DynamicResource Remark}" Binding="{Binding Remark}"></DataGridTextColumn>
+
+
+
+                                    </DataGrid.Columns>
+                                </DataGrid>
+
+                            </Grid>
+                            <StackPanel Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Content="{DynamicResource Export}" FontSize="18" FontWeight="Black" Width="100" Height="50" Command="{Binding ExportCommand}" CommandParameter="{Binding Entity.Id}"></Button>
+                            </StackPanel>
+                        </Grid>
+
+                    </Border>
+                </hc:Drawer>
+            </Grid>
+        </Border>
+    </hc:TransitioningContentControl>
+</UserControl>

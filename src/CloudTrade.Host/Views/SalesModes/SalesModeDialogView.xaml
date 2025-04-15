@@ -1,0 +1,52 @@
+﻿<Window x:Class="CloudTrade.Host.Views.SalesModes.SalesModeDialogView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CloudTrade.Host.Views.SalesModes"
+        mc:Ignorable="d"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        AllowsTransparency="True"
+        Foreground="{x:Null}"
+        Background="{x:Null}"
+        FocusVisualStyle="{x:Null}"
+        WindowStyle="None"
+        Title="CommodityCategoryDialogView" Height="400" Width="400" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+    <hc:TransitioningContentControl TransitionMode="Right2LeftWithFade">
+        <Border Background="{DynamicResource RegionBrush}" CornerRadius="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="55"/>
+                    <RowDefinition Height="220"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Margin="0 20 0 0" HorizontalAlignment="Center" TextAlignment="Center" FontSize="30" FontWeight="Bold" Text="{Binding Title,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Style="{DynamicResource TextBlockTitle}" Foreground="{DynamicResource PrimaryBrush}"/>
+
+                <StackPanel Grid.Row="1" Margin="0 30 0 0">
+                    <DockPanel LastChildFill="False">
+                        <TextBlock FontSize="25" Margin="0 3 0 0" Width="160" TextAlignment="Right" HorizontalAlignment="Right" Foreground="{DynamicResource PrimaryTextBrush}">
+                        <Run Text="{DynamicResource ModeName}"></Run>
+                        <Run Text="："></Run>
+                        </TextBlock>
+                        <TextBox Width="200" Text="{Binding Entity.ModeName}" Height="40" FontSize="20"></TextBox>
+                    </DockPanel>
+                    <DockPanel LastChildFill="False" Margin="0 20 0 0">
+                        <TextBlock FontSize="25" Margin="0 3 0 0" Width="160" TextAlignment="Right" HorizontalAlignment="Right" Foreground="{DynamicResource PrimaryTextBrush}">
+                        <Run Text="{DynamicResource Sort}"></Run>
+                        <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:NumericUpDown Maximum="100" Value="{Binding Entity.Sort}" Minimum="0" Width="200" Height="40"/>
+                    </DockPanel>
+
+                </StackPanel>
+                <StackPanel Grid.Row="2">
+
+                    <Button Content="{DynamicResource Enter}" Style="{DynamicResource ButtonDefault}" Command="{Binding enterCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=local:SalesModeDialogView}}" Height="45" Width="200" FontSize="20" FontWeight="Bold" ></Button>
+                    <Button Content="{DynamicResource Close}" Style="{DynamicResource ButtonDefault}" Command="{Binding closeCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=local:SalesModeDialogView}}" Height="45" Width="200" FontSize="20" FontWeight="Bold" Margin="0 10 0 0"></Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </hc:TransitioningContentControl>
+</Window>
+
+

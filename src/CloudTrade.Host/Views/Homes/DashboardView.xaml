@@ -1,0 +1,139 @@
+﻿<UserControl x:Class="CloudTrade.Host.Views.Homes.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CloudTrade.Host.Views.Homes"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             mc:Ignorable="d"
+             d:DesignHeight="675" d:DesignWidth="1110" Background="Transparent">
+    <hc:TransitioningContentControl TransitionMode="Right2LeftWithFade">
+
+
+        <Border Margin="5" CornerRadius="10" Background="Transparent">
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="90"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Margin="0" Background="{DynamicResource RegionBrush}" CornerRadius="10">
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Background="#76EEC6" CornerRadius="10" Margin="5 5 0 5">
+                            <StackPanel>
+                                <TextBlock Text="{DynamicResource Order}" Foreground="{DynamicResource DefaultBrush}" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 5 0 0" FontSize="15"></TextBlock>
+                                <TextBlock FontFamily="{StaticResource fontawesome}" Margin="20 0 0 0">
+                                <Run Text="&#xf157;" Foreground="{DynamicResource DefaultBrush}" FontSize="50"></Run>
+                                <Run Text="123,123" Foreground="{DynamicResource DefaultBrush}" FontWeight="Bold" FontSize="20"></Run>
+                                </TextBlock>
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Column="1" Background="#87CEEB" CornerRadius="10" Margin="5 5 0 5">
+                            <StackPanel>
+                                <TextBlock Text="{DynamicResource Collected}" Foreground="{DynamicResource DefaultBrush}" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 5 0 0" FontSize="15"></TextBlock>
+                                <TextBlock FontFamily="{StaticResource fontawesome}" Margin="20 0 0 0">
+                                <Run Text="&#xf09d;" Foreground="{DynamicResource DefaultBrush}" FontSize="50"></Run>
+                                <Run Text="123,123" Foreground="{DynamicResource DefaultBrush}" FontWeight="Bold" FontSize="20"></Run>
+                                </TextBlock>
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Column="2" Background="#FF4500" CornerRadius="10" Margin="5 5 0 5">
+                            <StackPanel>
+                                <TextBlock Text="{DynamicResource NoCollected}" Foreground="{DynamicResource DefaultBrush}" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 5 0 0" FontSize="15"></TextBlock>
+                                <TextBlock FontFamily="{StaticResource fontawesome}" Margin="20 0 0 0">
+                                <Run Text="&#xf218;" Foreground="{DynamicResource DefaultBrush}" FontSize="50"></Run>
+                                <Run Text="123,123" Foreground="{DynamicResource DefaultBrush}" FontWeight="Bold" FontSize="20"></Run>
+                                </TextBlock>
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Column="3" Background="#EE5C42" CornerRadius="10" Margin="5 5 5 5">
+                            <StackPanel>
+                                <TextBlock Text="{DynamicResource SalesExWareHouse}" Foreground="{DynamicResource DefaultBrush}" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 5 0 0" FontSize="15"></TextBlock>
+                                <TextBlock FontFamily="{StaticResource fontawesome}" Margin="20 0 0 0">
+                                <Run Text="&#xf20e;" Foreground="{DynamicResource DefaultBrush}" FontSize="50"></Run>
+                                <Run Text="123,123" Foreground="{DynamicResource DefaultBrush}" FontWeight="Bold" FontSize="20"></Run>
+                                </TextBlock>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Border>
+                <Border Grid.Row="1" Margin="0 5 0 0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" CornerRadius="10" Background="{DynamicResource RegionBrush}" MinWidth="200">
+                            <lvc:CartesianChart  Series="{Binding Series1}"/>
+                        </Border>
+                        <Border Grid.Column="1" CornerRadius="10" Background="{DynamicResource RegionBrush}" Margin="5 0 0 0" MinWidth="200">
+                            <lvc:PieChart  Series="{Binding Series7}"></lvc:PieChart>
+                        </Border>
+                        <Border Grid.Column="2" CornerRadius="10" Background="{DynamicResource RegionBrush}" Margin="5 0 0 0" MinWidth="200">
+                            <lvc:PieChart Series="{Binding Series9}" />
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Background="{DynamicResource RegionBrush}" CornerRadius="10" Margin="0 5 0 0" MinWidth="200">
+                            <lvc:CartesianChart Series="{Binding Series3}" XAxes="{Binding XAxes}"/>
+                        </Border>
+                        <Border Grid.Column="1" Background="{DynamicResource RegionBrush}" CornerRadius="10" Margin="5 5 0 0" MinWidth="200">
+                            <lvc:CartesianChart Series="{Binding Series5}" />
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="3">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="755"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Background="{DynamicResource RegionBrush}" CornerRadius="10" Margin="0 5 0 0">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Command="{Binding GoToPage1}">Page 1</Button>
+                                    <Button Command="{Binding GoToPage2}">Page 2</Button>
+                                    <Button Command="{Binding GoToPage3}">Page 3</Button>
+                                    <Button Command="{Binding SeeAll}">Clear</Button>
+                                </StackPanel>
+                                <lvc:CartesianChart
+                    Grid.Row="1"
+                    Series="{Binding Series6}"
+                    XAxes="{Binding XAxes6}"
+                    ZoomMode="X">
+                                </lvc:CartesianChart>
+                            </Grid>
+                        </Border>
+                        <Border Grid.Column="1" Background="{DynamicResource RegionBrush}" CornerRadius="10" Margin="5 5 0 0">
+                            <lvc:CartesianChart Series="{Binding Series2}"/>
+                        </Border>
+                    </Grid>
+                </Border>
+
+            </Grid>
+        </Border>
+    </hc:TransitioningContentControl>
+</UserControl>

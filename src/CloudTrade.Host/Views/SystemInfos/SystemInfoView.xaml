@@ -1,0 +1,88 @@
+﻿<UserControl x:Class="CloudTrade.Host.Views.SystemInfos.SystemInfoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CloudTrade.Host.Views.SystemInfos"
+             mc:Ignorable="d" 
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             d:DesignHeight="675" d:DesignWidth="1110">
+    <hc:TransitioningContentControl TransitionMode="Right2LeftWithFade">
+        <Border Margin="5" CornerRadius="10" Background="Transparent">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" CornerRadius="10" Background="{DynamicResource RegionBrush}">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
+                        <TextBlock FontSize="20" TextAlignment="Center" Foreground="{DynamicResource PrimaryBrush}">
+                            <Run Text="云商" FontWeight="Bold"></Run>
+                            <Run Text="(CloudTrade)"></Run>
+                            <Run Text="进销存管理系统"></Run>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Row="1" Margin="0 5 0 0"  CornerRadius="10" Background="{DynamicResource RegionBrush}">
+                    <StackPanel >
+                        <DockPanel LastChildFill="False" Margin="10 10 0 0">
+                            <TextBlock Width="160" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right">
+                                <Run Text="{DynamicResource Author}"></Run>
+                                <Run Text="："></Run>
+                            </TextBlock>
+                            <TextBlock FontSize="25" FontWeight="Bold" Text="我一个人" Foreground="{DynamicResource PrimaryBrush}"  VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center"></TextBlock>
+                        </DockPanel>
+                        <DockPanel LastChildFill="False" Margin="10 10 0 0">
+                            <TextBlock Width="160" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right">
+                                <Run Text="{DynamicResource Phone}"></Run>
+                                <Run Text="："></Run>
+                            </TextBlock>
+                            <TextBlock FontSize="25" FontWeight="Bold" Text="12345678901" Foreground="{DynamicResource PrimaryBrush}"  VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center"></TextBlock>
+                        </DockPanel>
+                        <DockPanel LastChildFill="False" Margin="10 10 0 0">
+                            <TextBlock Width="160" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right">
+                                <Run Text="{DynamicResource Copying}"></Run>
+                                <Run Text="："></Run>
+                            </TextBlock>
+                            <TextBlock FontSize="25" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center">
+                                <Run Text="&#xf1f9;" FontFamily="{DynamicResource fontawesome}"></Run>
+                                <Run Text="2025 PowerByWyl. All rights reserved"></Run>
+                            </TextBlock>
+                        </DockPanel>
+                        <DockPanel LastChildFill="False" Margin="10 10 0 0">
+                            <TextBlock  Width="160" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right">
+                                <Run Text="{DynamicResource SystemDescription}"></Run>
+                                <Run Text="："></Run>
+                            </TextBlock>
+                            <TextBlock FontSize="20" TextWrapping="Wrap" FontWeight="Bold">
+                                <Run Text="进销存管理系统是为了帮助企业有效管理库存、采购、销售等环节而设计的管理系统。该系统能够实时记录商品的进货、销售、库存变动等信息，提供准确的库存数据和销售数据，帮助企业更好地控制成本、提高运营效率、避免库存积压，并支持决策分析。"></Run>
+                            </TextBlock>
+                        </DockPanel>
+                        <DockPanel LastChildFill="False" Margin="10 10 0 0">
+                            <TextBlock  Width="160" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right">
+                                <Run Text="{DynamicResource Function}"></Run>
+                                <Run Text="："></Run>
+                            </TextBlock>
+                            <TextBlock FontSize="20" TextWrapping="Wrap" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Run Text="采购销售，库存管理，人事，财务统计，报表打印，用户权限划分"></Run>
+                            </TextBlock>
+                        </DockPanel>
+                        <DockPanel LastChildFill="False" Margin="10 10 0 0">
+                            <TextBlock  Width="160" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right">
+                                <Run Text="{DynamicResource Technical}"></Run>
+                                <Run Text="："></Run>
+                            </TextBlock>
+                            <TextBlock FontSize="20" TextWrapping="Wrap" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Run Text=".Net9 WPF +SqlSugarCore MSSQL2022"></Run>
+                            </TextBlock>
+                        </DockPanel>
+                    </StackPanel>
+                </Border>
+
+            </Grid>
+        </Border>
+    </hc:TransitioningContentControl>
+</UserControl>

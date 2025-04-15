@@ -1,0 +1,90 @@
+﻿<Window x:Class="CloudTrade.Host.Views.Mains.CommodityListDialogView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CloudTrade.Host.Views.Mains"
+        mc:Ignorable="d"
+  xmlns:hc="https://handyorg.github.io/handycontrol" Width="1100" Height="500" 
+          ResizeMode="NoResize" 
+        WindowStyle="SingleBorderWindow"
+        AllowsTransparency="False"
+        Background="Transparent"
+        WindowState="Normal" >
+
+
+    <!-- 外部 Border 用来添加阴影 -->
+    <!--<Border Background="{DynamicResource RegionBrush}" CornerRadius="10">
+        <TextBlock>111</TextBlock>
+    </Border>-->
+    <Border Background="{DynamicResource RegionBrush}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="60"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0">
+                <DockPanel HorizontalAlignment="Left">
+
+                    <Button Content="{DynamicResource Query}" Style="{DynamicResource ButtonDefault}" Command="{Binding SelectCommand}" Width="80" Height="35" FontWeight="Bold" FontSize="15" Margin="10 0 0 0">
+                        <!--<Button.CommandParameter>
+                            <MultiBinding Converter="{StaticResource mpcv}">
+                                <Binding ElementName="txt_query" Path="Text"></Binding>
+                                <Binding ElementName="cbo_co" Path="SelectedValue"></Binding>
+                                <Binding ElementName="cbo_ca" Path="SelectedValue"></Binding>
+                            </MultiBinding>
+                        </Button.CommandParameter>-->
+                    </Button>
+                    <hc:TextBox Width="200" hc:InfoElement.ShowClearButton="True" x:Name="txt_query" Height="35" FontSize="15" hc:InfoElement.Placeholder="{DynamicResource CommodityName}"  Text="" Margin="10 0 0 0"></hc:TextBox>
+                    <!--<hc:ComboBox x:Name="cbo_co" ItemsSource="{Binding CommodityCompanyList,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" SelectedValuePath="CommodityCompanyName" SelectedValue=""  DisplayMemberPath="CommodityCompanyName" hc:InfoElement.ShowClearButton="True" hc:InfoElement.Placeholder="单位" FontSize="15"  Margin="10 0 0 0" IsEditable="True"  Height="35" Width="200">
+
+                    </hc:ComboBox>-->
+                </DockPanel>
+            </Border>
+            <Border Grid.Row="1">
+                <Grid>
+                    <Border CornerRadius="10" Background="{DynamicResource RegionBrush}" >
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Text="&#xf1b3;" TextAlignment="Center" FontSize="100" FontFamily="{StaticResource fontawesome}" Foreground="{DynamicResource PrimaryBrush}"></TextBlock>
+                            <TextBlock Text="{DynamicResource NoData}" TextAlignment="Center" FontSize="100" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}"></TextBlock>
+                        </StackPanel>
+                    </Border>
+                    <DataGrid x:Name="dg" Visibility="{Binding CommodityList.Count,Converter={StaticResource btcv}}" hc:DataGridAttach.CanUnselectAllWithBlankArea="True" HeadersVisibility="All" RowHeaderWidth="60" AutoGenerateColumns="False" ItemsSource="{Binding CommodityList,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" >
+                        <DataGrid.RowHeaderTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsSelected,RelativeSource={RelativeSource AncestorType=DataGridRow}}"/>
+                            </DataTemplate>
+                        </DataGrid.RowHeaderTemplate>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{DynamicResource Id}" Binding="{Binding Id}" Visibility="Hidden"></DataGridTextColumn>
+                            <DataGridTextColumn Header="{DynamicResource CommodityName}" Binding="{Binding CommodityName}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="{DynamicResource CommodityCompanyName}" Binding="{Binding CommodityCompanyName}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="{DynamicResource CommodityCategoryName}" Binding="{Binding CommodityCategoryName}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="{DynamicResource Ppecification}" Binding="{Binding Ppecification}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="{DynamicResource PurchasePrice}" Binding="{Binding PurchasePrice}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="{DynamicResource Price}" Binding="{Binding Price}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="{DynamicResource MaxStockCount}" Binding="{Binding MaxStockCount}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="{DynamicResource MinStockCount}" Binding="{Binding MinStockCount}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="{DynamicResource BarCode}" Binding="{Binding BarCode}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="{DynamicResource CodeNo}" Binding="{Binding CodeNo}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="{DynamicResource Remark}" Binding="{Binding Remark}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="{DynamicResource Sort}" Binding="{Binding Sort}"></DataGridTextColumn>
+                            <!--<DataGridTextColumn Header="{DynamicResource CreateTime}" Binding="{Binding CreateTime}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="{DynamicResource LastUpdateTime}" Binding="{Binding LastUpdateTime}"></DataGridTextColumn>-->
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </Grid>
+
+            </Border>
+            <Border Grid.Row="2">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Button Margin="5" Content="{DynamicResource Enter}" Style="{DynamicResource ButtonDefault}" Command="{Binding enterCommand}"  CommandParameter="{Binding ElementName=dg,Path=SelectedItems}" Height="45" Width="200" FontSize="20" FontWeight="Bold" ></Button>
+                    <Button  Content="{DynamicResource Close}" Style="{DynamicResource ButtonDefault}" Command="{Binding closeCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=local:CommodityListDialogView}}" Height="45" Width="200" FontSize="20" FontWeight="Bold" ></Button>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
+</Window>
