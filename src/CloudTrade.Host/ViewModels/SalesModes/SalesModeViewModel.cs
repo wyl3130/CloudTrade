@@ -29,7 +29,7 @@ namespace CloudTrade.Host.ViewModels.SalesModes
         {
             get
             {
-                return new DelegateCommand(async () =>
+                return new DelegateCommand( () =>
                 {
                     try
                     {

@@ -32,7 +32,7 @@ namespace CloudTrade.Host.ViewModels.PaymentCategorys
         {
             get
             {
-                return new DelegateCommand(async () =>
+                return new DelegateCommand( () =>
                 {
                     try
                     {

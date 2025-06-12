@@ -41,7 +41,7 @@ namespace CloudTrade.Host.ViewModels.PurchaseOrders
         {
             get
             {
-                return new DelegateCommand(async () =>
+                return new DelegateCommand( () =>
                 {
                     try
                     {
@@ -103,7 +103,7 @@ namespace CloudTrade.Host.ViewModels.PurchaseOrders
                                     }
                                     else
                                     {
-                                        await db.PurchaseOrderDeleteAsync(item);
+                                        await db.PurchaseOrderDeleteAsync(item.Id);
                                     }
                                 }
                                 InitData();
@@ -131,8 +131,6 @@ namespace CloudTrade.Host.ViewModels.PurchaseOrders
                 {
                     try
                     {
-
-                        // var list = arg as System.Collections.IList;
                         if (arg.Count == 0 || arg.Count > 1 || arg.Count == 0)
                         {
                             HandyControl.Controls.Growl.Warning("请选中一条数据进行修改");
@@ -148,12 +146,7 @@ namespace CloudTrade.Host.ViewModels.PurchaseOrders
                                 view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                                 view.DataContext = vm;
                                 vm.Title = "修改";
-                                // vm.DepartmentList = DepartmentList;
-
                                 vm.Entity = entity;
-                                //var list = await db.
-                                //
-
                                 vm.PurchaseOrderItemList = new ObservableCollection<PurchaseOrderItemDto>(await db.PurchaseOrderViewAsync(entity.Id));
                                 bool? result = view.ShowDialog();
                                 if (result == true)
@@ -328,7 +321,7 @@ namespace CloudTrade.Host.ViewModels.PurchaseOrders
                                 worksheet.Cells[row, 2].Value = item.CustomerCompanyName;
                                 worksheet.Cells[row, 3].Value = item.WareHouseName;
                                 worksheet.Cells[row, 4].Value = item.RealName;
-                                worksheet.Cells[row, 5].Value = item.OrderState;
+                                worksheet.Cells[row, 5].Value = item.OrderState==0?"未审核":"已审核";
                                 worksheet.Cells[row, 6].Value = item.Preparer;
                                 worksheet.Cells[row, 7].Value = item.WareHouseDate;
                                 worksheet.Cells[row, 8].Value = item.Remark;
@@ -424,20 +417,6 @@ namespace CloudTrade.Host.ViewModels.PurchaseOrders
                             worksheet.Cells["H5"].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                             worksheet.Cells["H5"].Value = Entity.Remark;
 
-
-                            //worksheet.Cells[3, 1].Value = "客户公司";
-                            //worksheet.Cells[3, 2].Value = Entity.CustomerCompanyName;
-                            //worksheet.Cells[3, 3].Value = "负责人";
-                            //worksheet.Cells[3, 4].Value = Entity.RealName;
-                            //worksheet.Cells[3, 5].Value = "仓库名称";
-                            //worksheet.Cells[3, 6].Value = Entity.WareHouseName;
-                            //worksheet.Cells[3, 7].Value = "入库时间";
-
-
-                            //worksheet.Cells["H3:J3"].Merge = true;
-                            //worksheet.Cells["H3"].Value = Entity.WareHouseDate; 
-                            //worksheet.Cells["H3"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                            //worksheet.Cells["H3"].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
 
                             worksheet.Cells[6, 1].Value = "商品名称";
                             worksheet.Cells[6, 2].Value = "金额";

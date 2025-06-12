@@ -11,12 +11,13 @@ using System.Threading.Tasks;
 
 namespace CloudTrade.Application.Contracts.PurchaseWareHouses
 {
-    public interface IPurchaseWareHouseService: ICommodityService
+    public interface IPurchaseWareHouseService: IPurchaseOrderService
     {
         Task<bool> PurchaseWareHouseInsertAsync(PurchaseWareHouse entity, IEnumerable<PurchaseWareHouseItem> iList);
+        Task<bool> PurchaseWareHouseDeleteAsync(Guid Id);
+        Task<bool> PurchaseWareHouseUpdateAsync(PurchaseWareHouse entity, IEnumerable<PurchaseWareHouseItem> iList);
         Task<(IEnumerable<PurchaseWareHouseDto>, int)> PurchaseWareHouseQueryAsync(int PageIndex = 1, int PageSize = 10, string query = "", string StartTime = "", string EndTime = "");
         Task<IEnumerable<PurchaseWareHouseItemDto>> PurchaseWareHouseViewAsync(Guid Id);
-
-        Task<bool> PurchaseWareHouseDeleteAsync(PurchaseWareHouse entity);
+       // Task<IEnumerable<PurchaseWareHouseItemDto>> PurchaseOrderViewAsync(Guid Id);
     }
 }

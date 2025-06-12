@@ -155,7 +155,7 @@ namespace CloudTrade.Host.ViewModels.ModeInfos
         {
             get
             {
-                return new DelegateCommand<ArrayList>(async (arg) =>
+                return new DelegateCommand<ArrayList>( (arg) =>
                 {
                     try
                     {

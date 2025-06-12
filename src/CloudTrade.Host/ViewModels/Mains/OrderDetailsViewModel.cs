@@ -22,16 +22,3 @@ namespace CloudTrade.Host.ViewModels.Mains
    
     }
 }
-
-public interface iorder
-{
-    
-}
-public class Order1 : iorder
-{
-
-}
-public class Order2 : iorder
-{
-
-}

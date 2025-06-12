@@ -25,6 +25,9 @@ namespace CloudTrade.Domain.SalesExWareHouses
         [SugarColumn(ColumnName = "PaymentAccountId", IsNullable = false, ColumnDataType = "uniqueidentifier", ColumnDescription = "关联的支付账户id")]
         public Guid PaymentAccountId { get; set; } // 关联的支付账户id
 
+        [SugarColumn(ColumnName = "CurrentAmount", IsNullable = false, ColumnDataType = "float", ColumnDescription = "付款金额")]
+        public double CurrentAmount { get; set; } // 付款金额
+
         [SugarColumn(ColumnName = "RealName", IsNullable = false, ColumnDataType = "nvarchar", Length = 255, ColumnDescription = "经办人")]
         public string RealName { get; set; } // 经办人
 
@@ -34,8 +37,8 @@ namespace CloudTrade.Domain.SalesExWareHouses
         [SugarColumn(ColumnName = "Remark", IsNullable = true, ColumnDataType = "nvarchar", Length = 255, ColumnDescription = "备注")]
         public string Remark { get; set; } // 备注
 
-        [SugarColumn(ColumnName = "SalesMode", IsNullable = false, ColumnDataType = "nvarchar", Length = 255, ColumnDescription = "销售方式")]
-        public string SalesMode { get; set; } // 销售方式
+        [SugarColumn(ColumnName = "SalesModeId", IsNullable = false, ColumnDataType = "nvarchar", Length = 255, ColumnDescription = "销售方式")]
+        public Guid SalesModeId { get; set; } // 销售方式
 
         [SugarColumn(ColumnName = "OrderState", IsNullable = false, ColumnDataType = "int", ColumnDescription = "订单状态 0未审核 1已审核")]
         public int OrderState { get; set; } // 订单状态 0未审核 1已审核

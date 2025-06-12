@@ -1,10 +1,13 @@
-﻿using LiveChartsCore;
+﻿using CloudTrade.Application.Contracts.CommodityStocks;
+using CloudTrade.Application.Contracts.Homes;
+using LiveChartsCore;
 using LiveChartsCore.Defaults;
 using LiveChartsCore.SkiaSharpView.Extensions;
 using LiveChartsCore.SkiaSharpView.VisualElements;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,213 +15,291 @@ using System.Threading.Tasks;
 namespace CloudTrade.Host.ViewModels.Homes
 {
 
-    public class DashboardViewModel:BindableBase
+    public class DashboardViewModel : BindableBase,INavigationAware
     {
-        public  string Title { get; set; } = "仪表盘";
-        private readonly IRegionManager regionManager;
-        private readonly Random _random = new();
-
-        public ISeries[] Series6 { get; }
-
-        public ICartesianAxis[] XAxes6 { get; }
-        public DashboardViewModel(IRegionManager regionManager)
+        private readonly IDashboardService db;
+        public DashboardViewModel(IDashboardService db)
         {
-            this.regionManager=regionManager;
+            LiveCharts.Configure(config => config.HasGlobalSKTypeface(SKFontManager.Default.MatchCharacter('汉')));
 
-            var trend = 100;
-            var values = new List<int>();
+            this.db = db;
+            Init();
 
-            for (var i = 0; i < 100; i++)
-            {
-                trend += _random.Next(-30, 50);
-                values.Add(trend);
-            }
 
-            Series6 = [new ColumnSeries<int>(values)];
-            XAxes6 = [new Axis()];
+
+        }
+        private ISeries[] orderCount;
+        public ISeries[] OrderCount
+        {
+            get => orderCount;
+            set
+            { SetProperty(ref orderCount, value); }
         }
 
-        public DelegateCommand GoToPage1
+        private Axis[] _xAxes1;
+        public Axis[] XAxes1
         {
-            get
-            {
-                return new DelegateCommand(() =>
-                {
-                    var axis = XAxes6[0];
-                    axis.MinLimit = -0.5;
-                    axis.MaxLimit = 10.5;
-                });
-            }
+            get => _xAxes;
+            set
+            { SetProperty(ref _xAxes1, value); }
         }
-        public DelegateCommand GoToPage2
+
+        private Axis[] _yAxes1;
+        public Axis[] YAxes1
         {
-            get
-            {
-                return new DelegateCommand(() =>
-                {
-                    var axis = XAxes6[0];
-                    axis.MinLimit = 9.5;
-                    axis.MaxLimit = 20.5;
-                });
-            }
+            get => _yAxes1;
+            set
+            { SetProperty(ref _yAxes1, value); }
         }
-        public DelegateCommand GoToPage3
+        private ISeries[] orders;
+        public ISeries[] Orders
         {
-            get
-            {
-                return new DelegateCommand(() =>
-                {
-                    var axis = XAxes6[0];
-                    axis.MinLimit = 19.5;
-                    axis.MaxLimit = 30.5;
-                });
-            }
+            get => orders;
+            set
+            { SetProperty(ref orders, value); }
         }
-        public DelegateCommand SeeAll
+
+        private Axis[] _ordersxAxes;
+        public Axis[] OrdersxAxes
         {
-            get
-            {
-                return new DelegateCommand(() =>
-                {
-                    var axis = XAxes6[0];
-                    axis.MinLimit = null;
-                    axis.MaxLimit = null;
-                });
-            }
+            get => _ordersxAxes;
+            set
+            { SetProperty(ref _ordersxAxes, value); }
         }
+
+        public async Task Init()
+        {
+            Orders = new ISeries[] {
+                new ColumnSeries<double>(){
+                    Name="采购订单",
+                    Values=await db.PurchaseOrderRecentAsync()
+                },
+                new ColumnSeries<double>(){
+                    Name="销售订单",
+                    Values=await db.SalesOrderRecentAsync()
+                },
+            };
+
+            OrdersxAxes = new Axis[]
+            {
+               new Axis(){
+                Labels =days(),
+                LabelsRotation = 0,
+                SeparatorsPaint = new SolidColorPaint(new SKColor(200, 200, 200)),
+                SeparatorsAtCenter = false,
+                TicksPaint = new SolidColorPaint(new SKColor(35, 35, 35)),
+                TicksAtCenter = true,
+                // By default the axis tries to optimize the number of 
+                // labels to fit the available space, 
+                // when you need to force the axis to show all the labels then you must: 
+                ForceStepToMin = true,
+                MinStep = 1
+               }
+            };
+            SalesOrderCount = await db.SalesOrderCount();
+            SalesExWareHouseCount = db.SalesExWareHouseCount();
+
+            CommodityStockList = new(db.CommodityStockList());
+
+
+     
 
 
 
 
-        public ISeries[] Series1 { get; set; }
-            = new ISeries[]
+
+
+            // 1. 准备系列数据
+            SalesOrder = new ISeries[]
             {
-                new LineSeries<double>
-                {
-                    Values = new double[] { 2, 1, 3, 5, 3, 4, 6 ,10},
-                    Fill = null
+            new LineSeries<double>
+            {
+                Name = "销售额",
+                Values = await db.SalesExWareHouseAmount(),
+                Fill = null,
+                Stroke = new SolidColorPaint(SKColors.Blue) { StrokeThickness = 3 },
+                GeometryStroke = new SolidColorPaint(SKColors.Blue) { StrokeThickness = 3 },
+                GeometrySize = 10
+            },
+            new ColumnSeries<double>
+            {
+                Name = "利润",
+                Values = await db.SalesExWareHouseAmountAndProfit(),
+                Fill = new SolidColorPaint(SKColors.Green)
+            }
+            };
+
+            // 2. 设置X轴
+            XAxes = new Axis[]
+            {
+            new Axis
+            {
+                Name = "月份",
+                Labels = GetMonths(),
+                LabelsRotation = 15,
+                TextSize = 12,
+                NameTextSize = 14
+            }
+            };
+
+            // 3. 设置Y轴
+            YAxes = new Axis[]
+            {
+            new Axis
+            {
+                Name = "金额(元)",
+                TextSize = 12,
+                NameTextSize = 14,
+                Labeler = value => value.ToString("N0") // 格式化为数字
+            }
+            };
+
+
+            OrderCount = new ISeries[] {
+                new LineSeries<int>{
+                     Name="销售出库单",
+                     Values=await db.SalesExWareHouseCountAsync(),
+                     Fill=null,
+                Stroke = new SolidColorPaint(SKColors.Blue) { StrokeThickness = 3 },
+                GeometryStroke = new SolidColorPaint(SKColors.Blue) { StrokeThickness = 3 },
+                GeometrySize = 10,
+
+                },
+                                new LineSeries<int>{
+                     Name="销售退货单",
+                     Values= await db.SalesRefundCountAsync(),
+                     Fill=null,
+                Stroke = new SolidColorPaint(SKColors.Red) { StrokeThickness = 3 },
+                GeometryStroke = new SolidColorPaint(SKColors.Red) { StrokeThickness = 3 },
+                GeometrySize = 10,
+
                 }
             };
-        public ISeries[] Series2 { get; set; } = [
-        new LineSeries<ObservablePoint>
-        {
-            Values = [
-                new ObservablePoint(0, 4),
-                new ObservablePoint(1, 3),
-                new ObservablePoint(3, 8),
-                new ObservablePoint(18, 6),
-                new ObservablePoint(20, 12)
-            ]
-        }
-    ];
-        public ISeries[] Series3 { get; set; } =
-        {
-    new ColumnSeries<DateTimePoint>
-    {
-        Values = new List<DateTimePoint>
-        {
-            new DateTimePoint(new DateTime(2021, 1, 1), 3),
-            new DateTimePoint(new DateTime(2021, 1, 2), 6),
-            new DateTimePoint(new DateTime(2021, 1, 3), 5),
-            new DateTimePoint(new DateTime(2021, 1, 4), 3),
-            new DateTimePoint(new DateTime(2021, 1, 5), 5),
-            new DateTimePoint(new DateTime(2021, 1, 6), 8),
-            new DateTimePoint(new DateTime(2021, 1, 7), 6)
-        }
-    }
-};
-
-
-        // You can use the DateTimeAxis class to define a date time based axis 
-
-        // The first parameter is the time between each point, in this case 1 day 
-        // you can also use 1 year, 1 month, 1 hour, 1 minute, 1 second, 1 millisecond, etc 
-
-        // The second parameter is a function that receives the value and returns the label 
-        public Axis[] XAxes { get; set; } =
-        {
-        new DateTimeAxis(TimeSpan.FromDays(1), date => date.ToString("yyyy-MM-dd"))
-    };
-        private static int _index = 0;
-        private static string[] _names = ["Maria", "Susan", "Charles", "Fiona", "George"];
-
-        public IEnumerable<ISeries> Series4 { get; set; } =
-             new[] { 8, 6, 5, 3, 3 }.AsPieSeries((value, series) =>
-             {
-                 series.Name = _names[_index++ % _names.Length];
-                 series.DataLabelsPosition = LiveChartsCore.Measure.PolarLabelsPosition.Outer;
-                 series.DataLabelsSize = 15;
-                 series.DataLabelsPaint = new SolidColorPaint(new SKColor(30, 30, 30));
-                 series.DataLabelsFormatter =
-                    point =>
-                        $"This slide takes {point.Coordinate.PrimaryValue} " +
-                        $"out of {point.StackedValue!.Total} parts";
-                 series.ToolTipLabelFormatter = point => $"{point.StackedValue!.Share:P2}";
-             });
-
-
-        public ISeries[] Series5 { get; set; } = [
-    new StackedAreaSeries<double>([3, 2, 3, 5, 3, 4, 6]),
-        new StackedAreaSeries<double>([6, 5, 6, 3, 8, 5, 2]),
-        new StackedAreaSeries<double>([4, 8, 2, 8, 9, 5, 3])
-];
-
-
-        // you can convert any array, list or IEnumerable<T> to a pie series collection:
-        public IEnumerable<ISeries> Series7 { get; set; } =
-            new[] { 2, 4, 1, 4, 3 }.AsPieSeries();
-
-        // the expression above is equivalent to the next series collection:
-        public IEnumerable<ISeries> Series8 { get; set; } =
-            [
-                new PieSeries<int> { Values = [2] },
-            new PieSeries<int> { Values = [4] },
-            new PieSeries<int> { Values = [1] },
-            new PieSeries<int> { Values = [4] },
-            new PieSeries<int> { Values = [3] },
-        ];
-
-        //public LabelVisual Title { get; set; } =
-        //    new LabelVisual
-        //    {
-        //        Text = "My chart title",
-        //        TextSize = 25,
-        //        Padding = new LiveChartsCore.Drawing.Padding(15)
-        //    };
-
-        public IEnumerable<ISeries> Series9 { get; set; } =
-    new[] { 6, 5, 4, 3, 2 }.AsPieSeries((value, series) =>
-    {
-        // pushes out the slice with the value of 6 to 30 pixels.
-        if (value != 6) return;
-
-        series.Pushout = 30;
-    });
-
-        public string view = "DashboardView";
-
-
-
-
-
-
-        public DelegateCommand btnCommand
-        {
-            get
+            // 2. 设置X轴
+            XAxes1 = new Axis[]
             {
-                return new DelegateCommand(() =>
-                {
-                    regionManager.RequestNavigate("MainRegion", view);
-
-                });
+            new Axis
+            {
+                Name = "月份",
+                Labels = GetMonths(),
+                LabelsRotation = 15,
+                TextSize = 12,
+                NameTextSize = 14
             }
+            };
+
+            // 3. 设置Y轴
+            YAxes1 = new Axis[]
+            {
+            new Axis
+            {
+                Name = "数量",
+                TextSize = 12,
+                NameTextSize = 14,
+                Labeler = value => value.ToString("N0") // 格式化为数字
+            }
+            };
+
+
+        }
+        private string[] GetMonths()
+        {
+            DateTime currentDate = DateTime.Now;
+            string[] months = new string[6];
+
+            for (int i = 0; i < 6; i++)
+            {
+                DateTime month = currentDate.AddMonths(-i);
+                months[5 - i] = month.ToString("M月", CultureInfo.InvariantCulture);
+            }
+
+            return months;
         }
 
+        private static List<string> days()
+        {
+            // 获取今天的日期
+            DateTime today = DateTime.Today;
+
+            // 获取前天和昨天的日期
+            DateTime yesterday = today.AddDays(-1);
+            DateTime dayBeforeYesterday = today.AddDays(-2);
+
+            // 创建一个 List<string> 来保存日期
+            List<string> dates = new List<string>();
+            dates.Add(dayBeforeYesterday.Day.ToString());  // 前天
+            dates.Add(yesterday.Day.ToString());           // 昨天
+            dates.Add(today.Day.ToString());               // 今天
+
+
+            return dates;
+        }
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+           
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return false;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+        
+        }
+
+        private int salesOrderCount;
+        public int SalesOrderCount
+        {
+            get { return salesOrderCount; }
+            set { SetProperty(ref salesOrderCount, value); }
+        }
+        private int salesExWareHouseCount;
+        public int SalesExWareHouseCount
+        {
+            get { return salesExWareHouseCount; }
+            set { SetProperty(ref salesExWareHouseCount, value); }
+        }
+
+
+
+
+
+        private ISeries[] salesOrder;
+        public ISeries[] SalesOrder
+        {
+            get => salesOrder;
+            set
+            { SetProperty(ref salesOrder, value); }
+        }
+
+        private Axis[] _xAxes;
+        public Axis[] XAxes
+        {
+            get => _xAxes;
+            set
+            { SetProperty(ref _xAxes, value); }
+        }
+
+        private Axis[] _yAxes;
+        public Axis[] YAxes
+        {
+            get => _yAxes;
+            set
+            { SetProperty(ref _yAxes, value); }
+        }
+
+        private ObservableCollection<CommodityStockDto> commodityStockList;
+        public ObservableCollection<CommodityStockDto> CommodityStockList
+        {
+            get { return commodityStockList; }
+            set { SetProperty(ref commodityStockList, value); }
+        }
+
+
+
+
     }
-
-}
-
-public  interface inter
-{
 
 }

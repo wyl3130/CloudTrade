@@ -298,7 +298,7 @@ namespace CloudTrade.Host.ViewModels.Mains
                                 regionManager.RequestNavigate(regionName: RegionNames.MainRegion, "SystemInfoView", options => journal = options.Context.NavigationService.Journal);
                                 break;
                             case "CompanyInfo":
-                            case "公司相关":
+                            case "公司信息":
                                 regionManager.RequestNavigate(regionName: RegionNames.MainRegion, "CompanyInfoView", options => journal = options.Context.NavigationService.Journal);
                                 break;
 

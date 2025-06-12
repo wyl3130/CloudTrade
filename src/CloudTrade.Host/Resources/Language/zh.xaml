@@ -76,7 +76,7 @@
     <sys:String x:Key="CustomerCategory">单位类别</sys:String>
     <sys:String x:Key="CustomerCompany">往来单位</sys:String>
     <sys:String x:Key="ModeInfo">销售方式</sys:String>
-    <sys:String x:Key="SalesMode">货品销售方式</sys:String>
+    <sys:String x:Key="SalesMode">销售方式</sys:String>
     <sys:String x:Key="PaymentAccount">支付账户</sys:String>
     <sys:String x:Key="PaymentCategory">支付方式</sys:String>
     <sys:String x:Key="FinanceCategory">项目分类</sys:String>

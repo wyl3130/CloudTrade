@@ -30,7 +30,7 @@ namespace CloudTrade.Host.ViewModels.Departments
         {
             get
             {
-                return new DelegateCommand(async () =>
+                return new DelegateCommand( () =>
                 {
                     try
                     {

@@ -67,7 +67,7 @@
                                 <Run Text="："></Run>
                             </TextBlock>
                             <TextBlock FontSize="20" TextWrapping="Wrap" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Run Text="采购销售，库存管理，人事，财务统计，报表打印，用户权限划分"></Run>
+                                <Run Text="采购销售，库存管理，人事，财务统计，导出Excel"></Run>
                             </TextBlock>
                         </DockPanel>
                         <DockPanel LastChildFill="False" Margin="10 10 0 0">

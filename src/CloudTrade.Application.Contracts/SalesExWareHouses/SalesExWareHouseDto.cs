@@ -13,5 +13,6 @@ namespace CloudTrade.Application.Contracts.SalesExWareHouses
         public string WareHouseName { get; set; }
         public string PaymentAccountName { get; set; }
         public string PaymentCategoryName { get; set; }
+        public string SalesModeName { get; set; }
     }
 }

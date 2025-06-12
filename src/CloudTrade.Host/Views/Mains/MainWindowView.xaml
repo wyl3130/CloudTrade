@@ -59,7 +59,7 @@
                             </Border>
                             <!--<ContentControl Grid.Row="1" prism:RegionManager.RegionName="{x:Static share:RegionNames.LeftMenuRegion}" Width="230"  Margin="0 0 0 5"></ContentControl>-->
                             <Border Grid.Row="1" Margin="5 5 0 0" CornerRadius="10" Background="{DynamicResource RegionBrush}">
-                                <StackPanel Margin="3">
+                                <Grid Margin="3">
                                     <hc:ScrollViewer  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                                         <hc:SideMenu AutoSelect="False">
                                             <hc:Interaction.Triggers>
@@ -131,9 +131,9 @@
                                                 <hc:SideMenuItem Header="{DynamicResource Payments}">
 
                                                 </hc:SideMenuItem>
-                                                <hc:SideMenuItem Header="{DynamicResource OtherFinance}">
+                                                <!--<hc:SideMenuItem Header="{DynamicResource OtherFinance}">
 
-                                                </hc:SideMenuItem>
+                                                </hc:SideMenuItem>-->
                                             </hc:SideMenuItem>
                                             <hc:SideMenuItem Header="{DynamicResource IntegratedManagement}"  FontSize="18" FontWeight="Bold">
                                                 <hc:SideMenuItem.Icon>
@@ -145,9 +145,9 @@
                                                 <hc:SideMenuItem Header="{DynamicResource PaymentAccount}">
 
                                                 </hc:SideMenuItem>
-                                                <hc:SideMenuItem Header="{DynamicResource FinanceCategory}">
+                                                <!--<hc:SideMenuItem Header="{DynamicResource FinanceCategory}">
 
-                                                </hc:SideMenuItem>
+                                                </hc:SideMenuItem>-->
                                                 <hc:SideMenuItem Header="{DynamicResource CustomerCategory}">
 
                                                 </hc:SideMenuItem>
@@ -228,7 +228,7 @@
                                         </hc:SideMenu>
                                     </hc:ScrollViewer>
 
-                                </StackPanel>
+                                </Grid>
                             </Border>
                             <Border Grid.Row="2" CornerRadius="10" Background="{DynamicResource RegionBrush}" Margin="5 5 0 0">
                                 <StackPanel  HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -274,10 +274,9 @@
                                     </Grid.ColumnDefinitions>
 
                                     <StackPanel Grid.Column="0" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" Orientation="Horizontal">
-                                        <StackPanel Orientation="Horizontal">
+                                        <StackPanel Orientation="Horizontal" Margin="0 0 10 0">
                                             <Button Command="{Binding LastCommand}" Content="&#xf104;" FontFamily="{StaticResource fontawesome}"></Button>
                                             <Button Command="{Binding NextCommand}" Content="&#xf105;" FontFamily="{StaticResource fontawesome}"></Button>
-                                            <Button Command="{Binding RefreshCommand}" Content="&#xf01e;" FontFamily="{StaticResource fontawesome}"></Button>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <hc:Shield Subject=".net" Status="9" Color="#1182c3" />

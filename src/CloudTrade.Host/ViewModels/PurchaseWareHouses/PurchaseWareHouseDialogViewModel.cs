@@ -1,5 +1,6 @@
 ﻿using CloudTrade.Application.Contracts.PurchaseOrders;
 using CloudTrade.Application.Contracts.PurchaseWareHouses;
+using CloudTrade.Application.PurchaseOrders;
 using CloudTrade.Domain.CustomerCompanys;
 using CloudTrade.Domain.Employees;
 using CloudTrade.Domain.ModeInfos;
@@ -10,10 +11,14 @@ using CloudTrade.Domain.PurchaseOrders;
 using CloudTrade.Domain.PurchaseWareHouse;
 using CloudTrade.Domain.PurchaseWareHouseItems;
 using CloudTrade.Domain.WareHouses;
+using CloudTrade.Host.Resources.Event;
 using CloudTrade.Host.ViewModels.Mains;
 using CloudTrade.Host.Views.Mains;
+using CloudTrade.Host.Views.PurchaseWareHouses;
 using NetTaste;
+using Prism.Events;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,9 +29,11 @@ namespace CloudTrade.Host.ViewModels.PurchaseWareHouses
     public class PurchaseWareHouseDialogViewModel : BindableBase
     {
         private readonly IPurchaseWareHouseService db;
-        public PurchaseWareHouseDialogViewModel(IPurchaseWareHouseService db)
+
+        public PurchaseWareHouseDialogViewModel(IPurchaseWareHouseService db )
         {
             this.db = db;
+     
             PurchaseWareHouseItemList = new();
             InitData();
 
@@ -38,9 +45,10 @@ namespace CloudTrade.Host.ViewModels.PurchaseWareHouses
             EmployeList = new(await db.QueryableAsync<Employe>());
             WareHouseList = new(await db.QueryableAsync<WareHouse>());
             ModeInfoList = new(await db.QueryableAsync<ModeInfo>());
-            PurchaseOrderList = new(await db.QueryableAsync<PurchaseOrder>());
+          
+
             PaymentAccountList = new(await db.QueryableAsync<PaymentAccount>());
-            PaymentCategoryList = new ObservableCollection<PaymentCategory>(await db.QueryableAsync<PaymentCategory>());
+            PaymentCategoryList = new(await db.QueryableAsync<PaymentCategory>());
         }
         public DelegateCommand<object> enterCommand
         {
@@ -51,33 +59,21 @@ namespace CloudTrade.Host.ViewModels.PurchaseWareHouses
                     if (Title.Equals("添加"))
                     {
 
-                        if (Entity != null && !string.IsNullOrEmpty(Entity.RealName))
+                        if (Entity != null && !string.IsNullOrEmpty(Entity.RealName) && !string.IsNullOrEmpty(Entity.RealName) && !string.IsNullOrEmpty(Entity.Preparer) && !string.IsNullOrEmpty(Entity.WareHouseDate))
                         {
                             Entity.CodeNo = "CR" + DateTime.Now.ToString("yyyyMMddHHmmss");
-                            Entity.WareHouseDate = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
                             Entity.CreateTime = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
                             Entity.LastUpdateTime = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-                            if (Entity.OrderState == 0)
-                            {
-                                var result = await db.InsertAsync<PurchaseWareHouse>(Entity);
-                                if (result)
-                                {
-                                    foreach (var item in PurchaseWareHouseItemList)
-                                    {
-                                        await db.InsertAsync<PurchaseWareHouseItem>(item);
-                                    }
-                                    view.DialogResult = true;
-                                    view.Close();
-                                }
-                            }
+                            if (oEntity == null)
+                                Entity.PurchaseOrderId = Guid.Empty;
                             else
+                                Entity.PurchaseOrderId = oEntity.Id;
+
+                            var result = await db.PurchaseWareHouseInsertAsync(Entity, PurchaseWareHouseItemList);
+                            if (result)
                             {
-                                var result = await db.PurchaseWareHouseInsertAsync(Entity, PurchaseWareHouseItemList);
-                                if (result)
-                                {
-                                    view.DialogResult = true;
-                                    view.Close();
-                                }
+                                view.DialogResult = true;
+                                view.Close();
                             }
 
                         }
@@ -88,31 +84,16 @@ namespace CloudTrade.Host.ViewModels.PurchaseWareHouses
                     }
                     else
                     {
-                        if (Entity != null && !string.IsNullOrEmpty(Entity.RealName))
+                        if (Entity != null && !string.IsNullOrEmpty(Entity.RealName) && !string.IsNullOrEmpty(Entity.RealName) && !string.IsNullOrEmpty(Entity.Preparer) && !string.IsNullOrEmpty(Entity.WareHouseDate))
                         {
                             Entity.LastUpdateTime = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-                            if (Entity.OrderState == 0)
+                            Entity.PurchaseOrderId = oEntity.Id;
+                            var result = await db.PurchaseWareHouseUpdateAsync(Entity, PurchaseWareHouseItemList);
+                            if (result)
                             {
-                                var result = await db.UpdateAsync<PurchaseWareHouse>(Entity);
-                                if (result)
-                                {
-                                    var list = await db.QueryableAsync<PurchaseWareHouseItem>(x => x.PurchaseWareHouseId.Equals(Entity.Id));
-                                    await db.DeleteAsync<PurchaseWareHouseItem>(list);
-
-                                    foreach (var item in PurchaseWareHouseItemList)
-                                    {
-                                        await db.InsertAsync<PurchaseWareHouseItem>(item);
-                                    }
-                                    view.DialogResult = true;
-                                    view.Close();
-                                }
+                                view.DialogResult = true;
+                                view.Close();
                             }
-                            else
-                            {
-                                await db.PurchaseWareHouseDeleteAsync(Entity);
-                                await db.PurchaseWareHouseInsertAsync(Entity, PurchaseWareHouseItemList);
-                            }
-
                         }
                         else
                         {
@@ -134,19 +115,27 @@ namespace CloudTrade.Host.ViewModels.PurchaseWareHouses
                 {
                     if (arg is Window v)
                     {
-                        var view = new CommodityListDialogView();
+                        if (Entity.WareHouseId == new Guid())
+                        {
+                            HandyControl.Controls.MessageBox.Show("选择仓库");
+                        }
+                        else
+                        {
+                            var view = new CommodityListDialogView();
 
-                        var vm = new CommodityListDialogViewModel(db);
+                            var vm = new CommodityListDialogViewModel(db, Entity.WareHouseId);
 
-                        view.Owner = System.Windows.Application.Current.MainWindow;
-                        view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                        view.DataContext = vm;
-                        vm.Title = "采购入库单";
-                        vm.OrderId = Entity.Id;
+                            view.Owner = System.Windows.Application.Current.MainWindow;
+                            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                            view.DataContext = vm;
+                            vm.Title = "采购入库";
+                            vm.OrderId = Entity.Id;
 
-                        vm.PurchaseWareHouseItemList = PurchaseWareHouseItemList;
-                        vm.Guids = PurchaseWareHouseItemList.Select(x => x.CommodityId).ToList();
-                        view.ShowDialog();
+                            vm.PurchaseWareHouseItemList = PurchaseWareHouseItemList;
+                            vm.Guids = PurchaseWareHouseItemList.Select(x => x.CommodityId).ToList();
+                            view.ShowDialog();
+                        }
+
                     }
 
 
@@ -169,6 +158,7 @@ namespace CloudTrade.Host.ViewModels.PurchaseWareHouses
                 });
             }
         }
+
         public DelegateCommand ColumnUpdateCommand
         {
             get
@@ -200,51 +190,67 @@ namespace CloudTrade.Host.ViewModels.PurchaseWareHouses
                 });
             }
         }
-        public DelegateCommand<object> PurchaseOrderCommand
+       
+        public DelegateCommand OrderbtnCommand
         {
             get
             {
-                return new DelegateCommand<object>(async (arg) =>
+                return new DelegateCommand(async () =>
                 {
-                    if (arg != null)
+
+                    //eventAggregator.GetEvent<VisibilityChangeEvent>().Publish();
+                    var view = new PurchaseOrderListDialogView();
+                    view.Owner = System.Windows.Application.Current.MainWindow;
+                    view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                    var vm = new PurchaseOrderListDialogViewModel(db);
+                    view.DataContext = vm;
+                    bool? result = view.ShowDialog();
+                    if (result == true)
                     {
-                        Guid Id = (Guid)arg;  // 显式转换
-                        var po = await db.FindAsync<PurchaseOrder>(Id);
-                        if(po != null)
+                        oEntity = vm.Entity;
+                        if (oEntity != null)
                         {
                             Entity = new PurchaseWareHouse()
                             {
-                                CustomerCompanyId = po.CustomerCompanyId,
-                                WareHouseId = po.WareHouseId,
+                                Id= Guid.NewGuid(),
+                                CustomerCompanyId = oEntity.CustomerCompanyId,
+                                WareHouseId = oEntity.WareHouseId,
+                                RealName = oEntity.RealName,
+                                Preparer = AppData.user.UserName
 
                             };
-
+                            var list =(await db.PurchaseOrderViewAsync(oEntity.Id));
                             PurchaseWareHouseItemList = new ObservableCollection<PurchaseWareHouseItemDto>();
-                            var list = await db.QueryableAsync<PurchaseOrderItem>(x => x.PurchaseOrderId.Equals(Id));
-                            foreach (PurchaseOrderItem item in list)
+                            foreach (var item in list)
                             {
                                 PurchaseWareHouseItemList.Add(new PurchaseWareHouseItemDto()
                                 {
-                                    CommodityId = item.CommodityId,
-                                    Count = item.Count,
-                                    Price = item.Price,
+                                    Id=new Guid(),
                                     Amount = item.Amount,
+                                    CommodityId=item.CommodityId,
+                                    CommodityName= item.CommodityName,
+                                    Count = item.Count,
                                     CreateTime = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"),
                                     LastUpdateTime = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"),
                                     ModeInfoId = item.ModeInfoId,
-                                    Rebate = item.Rebate,
+                                    ModeInfoName = item.ModeInfoName,
+                                    Price   = item.Price,
+                                    PurchaseWareHouseId=Entity.Id,
+                                    Rebate= item.Rebate,
                                     Remark = item.Remark,
-                                    PurchaseWareHouseId = Entity.Id
                                 });
                             }
-
-
                         }
                     }
+
+
+
                 });
             }
         }
-        
+
+
+
         private string title = "添加";
         public string Title
         {
@@ -257,6 +263,13 @@ namespace CloudTrade.Host.ViewModels.PurchaseWareHouses
             get => entity;
             set => SetProperty(ref entity, value);
         }
+        private PurchaseOrder oentity;
+        public PurchaseOrder oEntity
+        {
+            get => oentity;
+            set => SetProperty(ref oentity, value);
+        }
+        
         private ObservableCollection<PurchaseWareHouseItemDto> purchaseWareHouseItemList;
         public ObservableCollection<PurchaseWareHouseItemDto> PurchaseWareHouseItemList
         {
@@ -295,12 +308,7 @@ namespace CloudTrade.Host.ViewModels.PurchaseWareHouses
             get { return paymentAccountList; }
             set { SetProperty(ref paymentAccountList, value); }
         }
-        private ObservableCollection<PurchaseOrder> purchaseOrderList;
-        public ObservableCollection<PurchaseOrder> PurchaseOrderList
-        {
-            get { return purchaseOrderList; }
-            set { SetProperty(ref purchaseOrderList, value); }
-        }
+
         private ObservableCollection<ModeInfo> modeInfoList;
         public ObservableCollection<ModeInfo> ModeInfoList
         {

@@ -29,7 +29,7 @@ namespace CloudTrade.Host.ViewModels.PurchaseOrders
             InitData();
           
         }
-        private DispatcherTimer _timer;
+     
         public async void InitData()
         {
             Entity.Preparer = AppData.user.UserName;
@@ -48,20 +48,16 @@ namespace CloudTrade.Host.ViewModels.PurchaseOrders
                     if (Title.Equals("添加"))
                     {
 
-                        if (Entity != null && !string.IsNullOrEmpty(Entity.RealName))
+                        if (Entity != null && !string.IsNullOrEmpty(Entity.RealName) &&!string.IsNullOrEmpty(Entity.RealName)&&!string.IsNullOrEmpty(Entity.Preparer)&&!string.IsNullOrEmpty(Entity.WareHouseDate))
                         {
                             Entity.CodeNo = "CD" + DateTime.Now.ToString("yyyyMMddHHmmss");
-                            Entity.WareHouseDate = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                        
                             Entity.CreateTime = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
                             Entity.LastUpdateTime = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-                            var result = await db.InsertAsync<PurchaseOrder>(Entity);
+                            var result = await db.PurchaseOrderInsertAsync(Entity,PurchaseOrderItemList);
                             if (result)
                             {
-                                //foreach (var item in PurchaseOrderItemList)
-                                //{
-                                //    await db.InsertAsync<PurchaseOrderItem>(item);
-                                //}
-                                await db.InsertAsync<PurchaseOrderItem>(PurchaseOrderItemList);
+   
                                 view.DialogResult = true;
                                 view.Close();
                             }
@@ -77,16 +73,9 @@ namespace CloudTrade.Host.ViewModels.PurchaseOrders
                         {
 
                             Entity.LastUpdateTime = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-                            var result = await db.UpdateAsync<PurchaseOrder>(Entity);
+                            var result = await db.PurchaseOrderUpdateAsync(Entity,PurchaseOrderItemList);
                             if (result)
                             {
-                                var list = await db.QueryableAsync<PurchaseOrderItem>(x=>x.PurchaseOrderId.Equals(Entity.Id));
-                                await db.DeleteAsync<PurchaseOrderItem>(list);
-                              
-                                foreach (var item in PurchaseOrderItemList)
-                                {
-                                    await db.InsertAsync<PurchaseOrderItem>(item);
-                                }
 
                                 view.DialogResult = true;
                                 view.Close();
@@ -112,19 +101,26 @@ namespace CloudTrade.Host.ViewModels.PurchaseOrders
                 {
                     if (arg is Window v)
                     {
-                        // v.Hide();
-                        var view = new CommodityListDialogView();
+                        if (Entity.WareHouseId == new Guid())
+                        {
+                            HandyControl.Controls.MessageBox.Show("选择仓库");
+                        }
+                        else
+                        {
+                            var view = new CommodityListDialogView();
 
-                        var vm = new CommodityListDialogViewModel(db);
-                       
-                        view.Owner = System.Windows.Application.Current.MainWindow;
-                        view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                        view.DataContext = vm;
-                        vm.Title = "采购订单";
-                        vm.OrderId = Entity.Id;
-                        vm.PurchaseOrderItemList = PurchaseOrderItemList;
-                        vm.Guids = PurchaseOrderItemList.Select(x => x.CommodityId).ToList();
-                        view.ShowDialog();
+                            var vm = new CommodityListDialogViewModel(db,Entity.WareHouseId);
+
+                            view.Owner = System.Windows.Application.Current.MainWindow;
+                            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                            view.DataContext = vm;
+                            vm.Title = "采购订单";
+                            vm.OrderId = Entity.Id;
+                            vm.PurchaseOrderItemList = PurchaseOrderItemList;
+                            vm.Guids = PurchaseOrderItemList.Select(x => x.CommodityId).ToList();
+                            view.ShowDialog();
+                        }
+
                     }
 
 

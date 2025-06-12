@@ -11,5 +11,7 @@ namespace CloudTrade.Application.Contracts.Commoditys
     {
         public string CommodityCategoryName { get; set; }
         public string CommodityCompanyName { get; set; }
+
+        public int StockCount { get; set; }
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CloudTrade.Host.Views.Mains"
         mc:Ignorable="d"
-  xmlns:hc="https://handyorg.github.io/handycontrol" Width="1100" Height="500" 
+  xmlns:hc="https://handyorg.github.io/handycontrol" Width="1100" Height="700" 
           ResizeMode="NoResize" 
         WindowStyle="SingleBorderWindow"
         AllowsTransparency="False"
@@ -59,13 +59,18 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="{DynamicResource Id}" Binding="{Binding Id}" Visibility="Hidden"></DataGridTextColumn>
                             <DataGridTextColumn Header="{DynamicResource CommodityName}" Binding="{Binding CommodityName}"></DataGridTextColumn>
-                            <DataGridTextColumn Header="{DynamicResource CommodityCompanyName}" Binding="{Binding CommodityCompanyName}"></DataGridTextColumn>
-                            <DataGridTextColumn Header="{DynamicResource CommodityCategoryName}" Binding="{Binding CommodityCategoryName}"></DataGridTextColumn>
+                            <!--<DataGridTextColumn Header="{DynamicResource CommodityCompanyName}" Binding="{Binding CommodityCompanyName}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="{DynamicResource CommodityCategoryName}" Binding="{Binding CommodityCategoryName}"></DataGridTextColumn>-->
                             <DataGridTextColumn Header="{DynamicResource Ppecification}" Binding="{Binding Ppecification}"></DataGridTextColumn>
                             <DataGridTextColumn Header="{DynamicResource PurchasePrice}" Binding="{Binding PurchasePrice}"></DataGridTextColumn>
                             <DataGridTextColumn Header="{DynamicResource Price}" Binding="{Binding Price}"></DataGridTextColumn>
                             <DataGridTextColumn Header="{DynamicResource MaxStockCount}" Binding="{Binding MaxStockCount}"></DataGridTextColumn>
                             <DataGridTextColumn Header="{DynamicResource MinStockCount}" Binding="{Binding MinStockCount}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="{DynamicResource StockCount}" Binding="{Binding StockCount}"></DataGridTextColumn>
+                            
+                            
+                            
+                            
                             <DataGridTextColumn Header="{DynamicResource BarCode}" Binding="{Binding BarCode}"></DataGridTextColumn>
                             <DataGridTextColumn Header="{DynamicResource CodeNo}" Binding="{Binding CodeNo}"></DataGridTextColumn>
                             <DataGridTextColumn Header="{DynamicResource Remark}" Binding="{Binding Remark}"></DataGridTextColumn>
@@ -80,6 +85,7 @@
 
             </Border>
             <Border Grid.Row="2">
+
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <Button Margin="5" Content="{DynamicResource Enter}" Style="{DynamicResource ButtonDefault}" Command="{Binding enterCommand}"  CommandParameter="{Binding ElementName=dg,Path=SelectedItems}" Height="45" Width="200" FontSize="20" FontWeight="Bold" ></Button>
                     <Button  Content="{DynamicResource Close}" Style="{DynamicResource ButtonDefault}" Command="{Binding closeCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=local:CommodityListDialogView}}" Height="45" Width="200" FontSize="20" FontWeight="Bold" ></Button>

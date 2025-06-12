@@ -31,7 +31,7 @@ namespace CloudTrade.Host.ViewModels.OtherFinances
         {
             get
             {
-                return new DelegateCommand(async () =>
+                return new DelegateCommand( () =>
                 {
                     try
                     {

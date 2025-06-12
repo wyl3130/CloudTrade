@@ -103,7 +103,7 @@ namespace CloudTrade.Host.ViewModels.PaymentAccounts
                     }
                     catch (Exception ex)
                     {
-
+                        Growl.Error(ex.Message);
                     }
                 });
             }

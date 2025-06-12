@@ -113,7 +113,7 @@ namespace CloudTrade.Host.ViewModels.Payments
         {
             get
             {
-                return new DelegateCommand<IList>(async (arg) =>
+                return new DelegateCommand<IList>( (arg) =>
                 {
                     try
                     {

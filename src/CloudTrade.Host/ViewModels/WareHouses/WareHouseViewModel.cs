@@ -171,7 +171,7 @@ namespace CloudTrade.Host.ViewModels.WareHouses
         {
             get
             {
-                return new DelegateCommand<object>(async (arg) =>
+                return new DelegateCommand<object>((arg) =>
                 {
                     try
                     {

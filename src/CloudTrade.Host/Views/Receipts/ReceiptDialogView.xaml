@@ -5,8 +5,148 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CloudTrade.Host.Views.Receipts"
         mc:Ignorable="d"
-        Title="ReceiptDialogView" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+  xmlns:hc="https://handyorg.github.io/handycontrol" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        AllowsTransparency="True"
+        Foreground="{x:Null}"
+        Background="{x:Null}"
+        FocusVisualStyle="{x:Null}"
+        WindowStyle="None"
+        Height="650" Width="1150" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+
+    <hc:TransitioningContentControl TransitionMode="Top2Bottom">
+
+        <Border Background="{DynamicResource RegionBrush}" CornerRadius="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="140"></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Margin="0 30 0 0" HorizontalAlignment="Center" TextAlignment="Center" FontSize="30" FontWeight="Bold" Text="{Binding Title,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Style="{DynamicResource TextBlockTitle}" Foreground="{DynamicResource PrimaryBrush}"/>
+
+                <Grid Grid.Row="1" Margin="0 0 0 0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+
+                    </Grid.ColumnDefinitions>
+                    <DockPanel Grid.Column="0" Grid.Row="0" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock  VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                            <Run Text="{DynamicResource CustomerCompanyName}"></Run>
+                            <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:ComboBox ItemsSource="{Binding CustomerCompanyList}" SelectedValue="{Binding Entity.CustomerCompanyId}" SelectedValuePath="Id" DisplayMemberPath="CustomerCompanyName" Width="200"  Height="40" FontSize="20" hc:InfoElement.ShowClearButton="True"></hc:ComboBox>
+                    </DockPanel>
+                    <DockPanel Grid.Column="1" Grid.Row="0" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                            <Run Text="{DynamicResource PaymentCategoryName}"></Run>
+                            <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:ComboBox ItemsSource="{Binding PaymentCategoryList}" SelectedValue="{Binding Entity.PaymentCategoryId}" SelectedValuePath="Id" DisplayMemberPath="PaymentCategoryName" Width="200"  Height="40" FontSize="20" hc:InfoElement.ShowClearButton="True"></hc:ComboBox>
+                    </DockPanel>
+                    <DockPanel Grid.Column="2" Grid.Row="0" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                            <Run Text="{DynamicResource PaymentAccountName}"></Run>
+                            <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:ComboBox ItemsSource="{Binding PaymentAccountList}" SelectedValue="{Binding Entity.PaymentAccountId}" SelectedValuePath="Id" DisplayMemberPath="PaymentAccountName" Width="200"  Height="40" FontSize="20" hc:InfoElement.ShowClearButton="True"></hc:ComboBox>
+                    </DockPanel>
+
+
+
+                    <DockPanel Grid.Column="0" Grid.Row="1" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                       <Run Text="收款金额"></Run>
+                       <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:NumericUpDown  DecimalPlaces="2"  Maximum="100000" Value="{Binding Entity.CurrentAmount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" FontSize="20" Minimum="0" Width="200" Height="40"/>
+                    </DockPanel>
+
+                    <DockPanel Grid.Column="1" Grid.Row="1" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock Width="130" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                            <Run Text="预收款"></Run>
+                            <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:ComboBox Width="200"  SelectedIndex="{Binding Entity.OrderState}" Height="40" FontSize="20" hc:InfoElement.ShowClearButton="True">
+                            <ComboBoxItem Content="否"></ComboBoxItem>
+                            <ComboBoxItem Content="是"></ComboBoxItem>
+                        </hc:ComboBox>
+
+                    </DockPanel>
+                    <DockPanel Grid.Column="2" Grid.Row="1" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock Width="130"  VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                            <Run Text="{DynamicResource Date}"></Run>
+                            <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:DateTimePicker Width="200"  Text="{Binding Entity.WareHouseDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Height="40" FontSize="20" hc:InfoElement.ShowClearButton="True"></hc:DateTimePicker>
+                    </DockPanel>
+
+                    <DockPanel Grid.Column="0" Grid.Row="2" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                            <Run Text="订单类型"></Run>
+                            <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:ComboBox Width="200"  SelectedIndex="{Binding Entity.OrderState}" Height="40" FontSize="20" hc:InfoElement.ShowClearButton="True">
+                            <ComboBoxItem Content="销售出库单"></ComboBoxItem>
+                            <ComboBoxItem Content="采购退货单"></ComboBoxItem>
+                        </hc:ComboBox>
+                    </DockPanel>
+                    <DockPanel Grid.Column="1" Grid.Row="2" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock Width="130" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                            <Run Text="选择订单"></Run>
+                            <Run Text="："></Run>
+                        </TextBlock>
+                        <Button Width="200" Height="40" Command="{Binding OrderbtnCommand}" Content="{Binding oEntity.CodeNo}"></Button>
+
+                    </DockPanel>
+                    <DockPanel Grid.Column="2" Grid.Row="2" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock Width="130"  VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                            <Run Text="单号"></Run>
+                            <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:TextBox Width="200"  Text="{Binding Entity.Remark}" Height="40" FontSize="20" hc:InfoElement.ShowClearButton="True"></hc:TextBox>
+                    </DockPanel>
+
+                    <DockPanel Grid.Column="0" Grid.Row="3" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock Width="130" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                            <Run Text="{DynamicResource RealName}"></Run>
+                            <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:ComboBox ItemsSource="{Binding EmployeList}" SelectedValue="{Binding Entity.RealName}" SelectedValuePath="RealName" DisplayMemberPath="RealName" Width="200"   Height="40" FontSize="20" hc:InfoElement.ShowClearButton="True"></hc:ComboBox>
+                    </DockPanel>
+                    <DockPanel Grid.Column="1" Grid.Row="3" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock Width="130" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                            <Run Text="{DynamicResource Preparer}"></Run>
+                            <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:TextBox IsReadOnly="True"   Width="200"  Text="{Binding Entity.Preparer,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="40" FontSize="20" hc:InfoElement.ShowClearButton="True"></hc:TextBox>
+                    </DockPanel>
+
+                    <DockPanel Grid.Column="2" Grid.Row="3" LastChildFill="False" HorizontalAlignment="Center">
+                        <TextBlock Width="130"  VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                            <Run Text="{DynamicResource Remark}"></Run>
+                            <Run Text="："></Run>
+                        </TextBlock>
+                        <hc:TextBox Width="200"  Text="{Binding Entity.Remark}" Height="40" FontSize="20" hc:InfoElement.ShowClearButton="True"></hc:TextBox>
+                    </DockPanel>
+                </Grid>
+
+                <DockPanel LastChildFill="False" Grid.Row="3" HorizontalAlignment="Center">
+                    <Button Content="{DynamicResource Enter}" Style="{DynamicResource ButtonDefault}" Command="{Binding enterCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=local:ReceiptDialogView}}" Height="45" Width="200" FontSize="20" FontWeight="Bold" Margin="5"></Button>
+                    <Button Content="{DynamicResource Close}" Style="{DynamicResource ButtonDefault}" Command="{Binding closeCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=local:ReceiptDialogView}}" Height="45" Width="200" FontSize="20" FontWeight="Bold" Margin="5"></Button>
+                </DockPanel>
+
+
+            </Grid>
+
+        </Border>
+
+    </hc:TransitioningContentControl>
 </Window>

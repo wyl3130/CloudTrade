@@ -49,5 +49,47 @@
                 throw ex;
             }
         }
+
+        public async Task<(IEnumerable<CommodityDto>, int)> CommoditySelectAsync(int PageIndex = 1, int PageSize = 10, string query = "", string CommodityCategoryName = "", string CommodityCompanyName = "", Guid WareHouseId = new Guid())
+        {
+            try
+            {
+                if (PageIndex < 1) PageIndex = 1;
+                if (PageSize < 1) PageSize = 10;
+                var queryable =await db.Queryable<CommodityStock, Commodity, WareHouse>((cs, c, w) => new JoinQueryInfos(
+    JoinType.Inner, cs.CommodityId.Equals(c.Id),
+    JoinType.Inner, w.Id.Equals(cs.WareHouseId)
+    ))
+    .Where((cs, c, w) => c.CommodityName.Contains(query) && w.Id.Equals(WareHouseId))
+    .Select((cs, c, w) => new CommodityDto()
+    {
+        Id = cs.Id,
+        BarCode = c.BarCode,
+        CodeNo = c.CodeNo,
+        MaxStockCount = c.MaxStockCount,
+        CommodityName = c.CommodityName,
+
+        CreateTime = cs.CreateTime,
+        LastUpdateTime = cs.LastUpdateTime,
+
+        StockCount = cs.StockCount,
+        MinStockCount = c.MinStockCount,
+        Ppecification = c.Ppecification,
+        Price = c.Price,
+        PurchasePrice = c.PurchasePrice,
+        Remark = c.Remark,
+        Sort = c.Sort
+
+    }).ToListAsync();
+                //var totalRecords = await queryable.CountAsync();
+                //var pageCount = (int)Math.Ceiling(totalRecords / (double)PageSize);
+                //var data = await queryable.Skip((PageIndex - 1) * PageSize).Take(PageSize).ToListAsync();
+                return (queryable, 1);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

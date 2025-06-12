@@ -10,7 +10,7 @@ namespace CloudTrade.SqlSugarCore
         {
             this.db = db;
         }
-        public bool Insert<T>(T t) where T : class, new()
+        public virtual bool Insert<T>(T t) where T : class, new()
         {
             try
             {
@@ -22,7 +22,7 @@ namespace CloudTrade.SqlSugarCore
                 throw ex;
             }
         }
-        public bool Insert<T>(IEnumerable<T> tList) where T : class, new()
+        public virtual bool Insert<T>(IEnumerable<T> tList) where T : class, new()
         {
             try
             {
@@ -36,7 +36,7 @@ namespace CloudTrade.SqlSugarCore
         }
 
 
-        public bool Delete<T>(T t) where T : class, new()
+        public virtual bool Delete<T>(T t) where T : class, new()
         {
             try
             {
@@ -52,7 +52,7 @@ namespace CloudTrade.SqlSugarCore
             }
         }
 
-        public bool Delete<T>(Guid Id) where T : class, new()
+        public virtual bool Delete<T>(Guid Id) where T : class, new()
         {
             try
             {
@@ -68,7 +68,7 @@ namespace CloudTrade.SqlSugarCore
                 throw ex;
             }
         }
-        public bool Delete<T>(IEnumerable<T> tList) where T : class, new()
+        public virtual bool Delete<T>(IEnumerable<T> tList) where T : class, new()
         {
             try
             {
@@ -84,7 +84,7 @@ namespace CloudTrade.SqlSugarCore
             }
         }
 
-        public bool Update<T>(T t) where T : class, new()
+        public virtual bool Update<T>(T t) where T : class, new()
         {
             try
             {
@@ -100,7 +100,7 @@ namespace CloudTrade.SqlSugarCore
             }
         }
 
-        public bool Update<T>(IEnumerable<T> tList) where T : class, new()
+        public virtual bool Update<T>(IEnumerable<T> tList) where T : class, new()
         {
             try
             {
@@ -114,7 +114,7 @@ namespace CloudTrade.SqlSugarCore
 
 
 
-        public T Find<T>(Guid Id) where T : class
+        public virtual T Find<T>(Guid Id) where T : class
         {
             try
             {
@@ -125,7 +125,7 @@ namespace CloudTrade.SqlSugarCore
                 throw ex;
             }
         }
-        public IEnumerable<T> Queryable<T>() where T : class
+        public virtual IEnumerable<T> Queryable<T>() where T : class
         {
             try
             {
@@ -136,7 +136,7 @@ namespace CloudTrade.SqlSugarCore
                 throw ex;
             }
         }
-        public IEnumerable<T> Queryable<T>(Expression<Func<T, bool>> fun) where T : class
+        public virtual IEnumerable<T> Queryable<T>(Expression<Func<T, bool>> fun) where T : class
         {
             try
             {
@@ -160,7 +160,7 @@ namespace CloudTrade.SqlSugarCore
 
 
 
-        public async Task<bool> InsertAsync<T>(T t) where T : class, new()
+        public virtual async Task<bool> InsertAsync<T>(T t) where T : class, new()
         {
             try
             {
@@ -173,7 +173,7 @@ namespace CloudTrade.SqlSugarCore
             }
         }
 
-        public async Task<bool> InsertAsync<T>(IEnumerable<T> tList) where T : class, new()
+        public virtual async Task<bool> InsertAsync<T>(IEnumerable<T> tList) where T : class, new()
         {
             try
             {
@@ -187,7 +187,7 @@ namespace CloudTrade.SqlSugarCore
         }
 
 
-        public async Task<bool> DeleteAsync<T>(T t) where T : class, new()
+        public virtual async Task<bool> DeleteAsync<T>(T t) where T : class, new()
         {
             try
             {
@@ -203,7 +203,7 @@ namespace CloudTrade.SqlSugarCore
             }
         }
 
-        public async Task<bool> DeleteAsync<T>(Guid Id) where T : class, new()
+        public virtual async Task<bool> DeleteAsync<T>(Guid Id) where T : class, new()
         {
             try
             {
@@ -219,7 +219,7 @@ namespace CloudTrade.SqlSugarCore
                 throw ex;
             }
         }
-        public async Task<bool> DeleteAsync<T>(IEnumerable<T> tList) where T : class, new()
+        public virtual async Task<bool> DeleteAsync<T>(IEnumerable<T> tList) where T : class, new()
         {
             try
             {
@@ -235,7 +235,7 @@ namespace CloudTrade.SqlSugarCore
             }
         }
 
-        public async Task<bool> UpdateAsync<T>(T t) where T : class, new()
+        public virtual async Task<bool> UpdateAsync<T>(T t) where T : class, new()
         {
             try
             {
@@ -251,7 +251,7 @@ namespace CloudTrade.SqlSugarCore
             }
         }
 
-        public async Task<bool> UpdateAsync<T>(IEnumerable<T> tList) where T : class, new()
+        public virtual async Task<bool> UpdateAsync<T>(IEnumerable<T> tList) where T : class, new()
         {
             try
             {
@@ -265,7 +265,7 @@ namespace CloudTrade.SqlSugarCore
 
 
 
-        public async Task<T> FindAsync<T>(Guid Id) where T : class
+        public virtual async Task<T> FindAsync<T>(Guid Id) where T : class
         {
             try
             {
@@ -276,7 +276,7 @@ namespace CloudTrade.SqlSugarCore
                 throw ex;
             }
         }
-        public async Task<IEnumerable<T>> QueryableAsync<T>() where T : class
+        public virtual async Task<IEnumerable<T>> QueryableAsync<T>() where T : class
         {
             try
             {
@@ -287,7 +287,7 @@ namespace CloudTrade.SqlSugarCore
                 throw ex;
             }
         }
-        public async Task<IEnumerable<T>> QueryableAsync<T>(Expression<Func<T, bool>> fun) where T : class
+        public virtual async Task<IEnumerable<T>> QueryableAsync<T>(Expression<Func<T, bool>> fun) where T : class
         {
             try
             {

@@ -10,8 +10,8 @@ namespace CloudTrade.Domain.SalesOrders
     public class SalesOrder : BaseEntity
     {
 
-        [SugarColumn(ColumnName = "ExWarehouseDate", IsNullable = false, ColumnDataType = "nvarchar", Length = 100, ColumnDescription = "出库时间")]
-        public string ExWarehouseDate { get; set; } // 出库时间
+        [SugarColumn(ColumnName = "ExWareHouseDate", IsNullable = false, ColumnDataType = "nvarchar", Length = 100, ColumnDescription = "出库时间")]
+        public string ExWareHouseDate { get; set; } // 出库时间
 
         [SugarColumn(ColumnName = "WareHouseId", IsNullable = false, ColumnDataType = "uniqueidentifier", ColumnDescription = "关联的仓库Id")]
         public Guid WareHouseId { get; set; } // 关联的仓库Id
@@ -31,8 +31,8 @@ namespace CloudTrade.Domain.SalesOrders
         [SugarColumn(ColumnName = "RealName", IsNullable = false, ColumnDataType = "nvarchar", Length = 255, ColumnDescription = "经办人")]
         public string RealName { get; set; } // 经办人
 
-        [SugarColumn(ColumnName = "SalesMode", IsNullable = false, ColumnDataType = "nvarchar", Length = 255, ColumnDescription = "销售方式")]
-        public string SalesMode { get; set; } // 销售方式
+        [SugarColumn(ColumnName = "SalesModeId", IsNullable = false, ColumnDataType = "nvarchar", Length = 255, ColumnDescription = "销售方式")]
+        public Guid SalesModeId { get; set; } // 销售方式
 
         [SugarColumn(ColumnName = "CodeNo", IsNullable = false, ColumnDataType = "nvarchar", Length = 255, ColumnDescription = "常规编码 例：XD-2022-11-17-001")]
         public string CodeNo { get; set; } // 常规编码 例：XD-2022-11-17-001

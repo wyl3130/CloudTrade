@@ -25,7 +25,7 @@
                             <ColumnDefinition Width="auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <DockPanel HorizontalAlignment="Left" LastChildFill="False" Grid.Column="0">
-                            <Button Content="{DynamicResource Print}" Style="{DynamicResource ButtonDefault}" Command="{Binding PrintCommand}" Width="80" Height="35" FontWeight="Bold" FontSize="15" Margin="10 0 0 0"></Button>
+                            <Button Content="{DynamicResource Export}" Style="{DynamicResource ButtonDefault}" Command="{Binding ExportCommand}" CommandParameter="{Binding ElementName=dg,Path=SelectedItems}" Width="80" Height="35" FontWeight="Bold" FontSize="15" Margin="10 0 0 0"></Button>
                             <Button Content="{DynamicResource View}" Style="{DynamicResource ButtonDefault}" Command="{Binding ViewCommand}" CommandParameter="{Binding ElementName=dg,Path=SelectedItems}" Width="80" Height="35" FontWeight="Bold" FontSize="15" Margin="10 0 0 0"></Button>
                             <Button Content="{DynamicResource Add}" Style="{DynamicResource ButtonDefault}" Command="{Binding InsertCommand}" Width="80" Height="35" FontWeight="Bold" FontSize="15" Margin="10 0 0 0"></Button>
                             <Button Content="{DynamicResource Delete}" Style="{DynamicResource ButtonDefault}" Command="{Binding DeleteCommand}" CommandParameter="{Binding ElementName=dg,Path=SelectedItems}" Width="80" Height="35" FontWeight="Bold" FontSize="15" Margin="10 0 0 0"></Button>
@@ -71,8 +71,18 @@
                             </DataGrid.RowHeaderTemplate>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="{DynamicResource Id}" Binding="{Binding Id}" Visibility="Hidden"></DataGridTextColumn>
-                                <DataGridTextColumn Header="{DynamicResource PositionName}" Binding="{Binding PositionName}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="{DynamicResource DepartmentName}" Binding="{Binding DepartmentName}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="{DynamicResource CodeNo}" Binding="{Binding CodeNo}"></DataGridTextColumn>
+
+
+                                <DataGridTextColumn Header="{DynamicResource CustomerCompanyName}" Binding="{Binding CustomerCompanyName}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="{DynamicResource PaymentCategoryName}" Binding="{Binding PaymentCategoryName}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="{DynamicResource PaymentAccountName}" Binding="{Binding PaymentAccountName}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="付款金额" Binding="{Binding CurrentAmount}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="{DynamicResource WareHouseName}" Binding="{Binding WareHouseName}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="{DynamicResource RealName}" Binding="{Binding RealName}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="{DynamicResource OrderState}" Binding="{Binding OrderState,Converter={StaticResource oscv}}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="{DynamicResource Preparer}" Binding="{Binding Preparer}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="入库时间" Binding="{Binding ExWareHouseDate}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="{DynamicResource Remark}" Binding="{Binding Remark}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="{DynamicResource CreateTime}" Binding="{Binding CreateTime}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="{DynamicResource LastUpdateTime}" Binding="{Binding LastUpdateTime}"></DataGridTextColumn>
@@ -137,11 +147,11 @@
                     </Grid>
                 </Border>
                 <hc:Drawer Name="DrawerTopInContainer" Dock="Top" IsOpen="{Binding IsOpen,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
-                    <Border Background="{DynamicResource RegionBrush}" Height="600" BorderBrush="{DynamicResource BorderBrush}">
+                    <Border Background="{DynamicResource RegionBrush}" Height="700" BorderBrush="{DynamicResource BorderBrush}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"></RowDefinition>
-                                <RowDefinition Height="1*"></RowDefinition>
+                                <RowDefinition Height="1.5*"></RowDefinition>
                                 <RowDefinition Height="3*"></RowDefinition>
                                 <RowDefinition Height="0.5*"></RowDefinition>
                             </Grid.RowDefinitions>
@@ -152,6 +162,7 @@
                             </TextBlock>
                             <Grid Grid.Row="1" Margin="0 20 0 0">
                                 <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
                                     <RowDefinition></RowDefinition>
                                     <RowDefinition></RowDefinition>
                                 </Grid.RowDefinitions>
@@ -169,7 +180,7 @@
                                     <TextBox Width="200" Text="{Binding Entity.CustomerCompanyName}" IsReadOnly="True" Height="40" FontSize="20" ></TextBox>
                                 </DockPanel>
                                 <DockPanel Grid.Column="1" Grid.Row="0" LastChildFill="False" HorizontalAlignment="Center">
-                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                                    <TextBlock Width="130" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
             <Run Text="{DynamicResource RealName}"></Run>
             <Run Text="："></Run>
                                     </TextBlock>
@@ -187,32 +198,64 @@
             <Run Text="{DynamicResource Date}"></Run>
             <Run Text="："></Run>
                                     </TextBlock>
-                                    <hc:TextBox Width="200"  Text="{Binding Entity.WareHouseDate}" IsReadOnly="True"  Height="40" FontSize="20"></hc:TextBox>
+                                    <hc:TextBox Width="200"  Text="{Binding Entity.ExWareHouseDate}" IsReadOnly="True"  Height="40" FontSize="20"></hc:TextBox>
                                 </DockPanel>
 
                                 <DockPanel Grid.Column="0" Grid.Row="1" LastChildFill="False" HorizontalAlignment="Center">
-                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
-            <Run Text="{DynamicResource OrderState}"></Run>
+
+                                    <TextBlock Width="130" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+            <Run Text="{DynamicResource PaymentCategoryName}"></Run>
             <Run Text="："></Run>
+                                    </TextBlock>
+                                    <hc:TextBox Width="200"  Text="{Binding Entity.PaymentCategoryName}" Height="40" FontSize="20" IsReadOnly="True"></hc:TextBox>
+
+                                </DockPanel>
+                                <DockPanel Grid.Column="1" Grid.Row="1" LastChildFill="False" HorizontalAlignment="Center">
+                                    <TextBlock  VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+            <Run Text="{DynamicResource PaymentAccountName}"></Run>
+            <Run Text="："></Run>
+                                    </TextBlock>
+                                    <hc:TextBox Width="200"  Text="{Binding Entity.PaymentAccountName}" Height="40" FontSize="20" IsReadOnly="True"></hc:TextBox>
+
+                                </DockPanel>
+                                <DockPanel Grid.Column="2" Grid.Row="1" LastChildFill="False" HorizontalAlignment="Center">
+                                    <TextBlock Width="130"  VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+            <Run Text="付款金额"></Run>
+            <Run Text="："></Run>
+                                    </TextBlock>
+                                    <hc:TextBox Width="200"  Text="{Binding Entity.CurrentAmount}" Height="40" FontSize="20" IsReadOnly="True"></hc:TextBox>
+                                </DockPanel>
+
+
+
+                                <DockPanel Grid.Column="0" Grid.Row="2" LastChildFill="False" HorizontalAlignment="Center">
+                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+<Run Text="{DynamicResource OrderState}"></Run>
+<Run Text="："></Run>
                                     </TextBlock>
                                     <hc:TextBox Width="200" IsReadOnly="True"  Text="{Binding Entity.OrderState,Converter={StaticResource oscv}}" Height="40" FontSize="20" >
 
                                     </hc:TextBox>
                                 </DockPanel>
-                                <DockPanel Grid.Column="1" Grid.Row="1" LastChildFill="False" HorizontalAlignment="Center">
-                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
-            <Run Text="{DynamicResource Preparer}"></Run>
-            <Run Text="："></Run>
+
+                                <DockPanel Grid.Column="1" Grid.Row="2" LastChildFill="False" HorizontalAlignment="Center">
+                                    <TextBlock Width="130" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+<Run Text="{DynamicResource Preparer}"></Run>
+<Run Text="："></Run>
                                     </TextBlock>
                                     <hc:TextBox IsReadOnly="True"   Width="200"  Text="{Binding Entity.Preparer,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="40" FontSize="20" ></hc:TextBox>
                                 </DockPanel>
-                                <DockPanel Grid.Column="2" Grid.Row="1" LastChildFill="False" HorizontalAlignment="Center">
+
+                                <DockPanel Grid.Column="2" Grid.Row="2" LastChildFill="False" HorizontalAlignment="Center">
                                     <TextBlock Width="130"  VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
             <Run Text="{DynamicResource Remark}"></Run>
             <Run Text="："></Run>
                                     </TextBlock>
                                     <hc:TextBox Width="200"  Text="{Binding Entity.Remark}" Height="40" FontSize="20" IsReadOnly="True"></hc:TextBox>
                                 </DockPanel>
+
+
+
                             </Grid>
 
                             <Grid Grid.Row="2" Margin="0 30 0 0">
@@ -222,33 +265,19 @@
                                         <TextBlock Text="{DynamicResource NoData}" TextAlignment="Center" FontSize="100" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}"></TextBlock>
                                     </StackPanel>
                                 </Border>
-                                <DataGrid HeadersVisibility="All"   Visibility="{Binding PurchaseOrderItemList.Count,Converter={StaticResource btcv}}" hc:DataGridAttach.ShowRowNumber="True"  RowHeaderWidth="60" AutoGenerateColumns="False" ItemsSource="{Binding PurchaseOrderItemList,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" >
-
-                                    <!--<DataGrid.RowHeaderTemplate>
-                             <DataTemplate>
-                                 <CheckBox IsChecked="{Binding IsSelected,RelativeSource={RelativeSource AncestorType=DataGridRow}}"/>
-                             </DataTemplate>
-                         </DataGrid.RowHeaderTemplate>-->
+                                <DataGrid HeadersVisibility="All"   Visibility="{Binding PurchaseRefundItemList.Count,Converter={StaticResource btcv}}" hc:DataGridAttach.ShowRowNumber="True"  RowHeaderWidth="60" AutoGenerateColumns="False" ItemsSource="{Binding PurchaseRefundItemList,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" >
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Header="{DynamicResource CommodityName}" Binding="{Binding CommodityName}"></DataGridTextColumn>
                                         <DataGridTextColumn Header="{DynamicResource Amount}" Binding="{Binding Amount}"></DataGridTextColumn>
-                                        <DataGridTextColumn Header="含税单价" Binding="{Binding TaxPrice}"></DataGridTextColumn>
-                                        <DataGridTextColumn Header="含税金额" Binding="{Binding TaxAmount}"></DataGridTextColumn>
                                         <DataGridTextColumn Header="{DynamicResource Price}" Binding="{Binding Price}"></DataGridTextColumn>
                                         <DataGridTextColumn Header="{DynamicResource Count}" Binding="{Binding Count}"></DataGridTextColumn>
-                                        <DataGridTextColumn Header="{DynamicResource Tax}" Binding="{Binding Tax}"></DataGridTextColumn>
-                                        <DataGridTextColumn Header="{DynamicResource Rebate}" Binding="{Binding Rebate}"></DataGridTextColumn>
-                                        <DataGridTextColumn Header="{DynamicResource ModeInfo}" Binding="{Binding ModeInfoName}"></DataGridTextColumn>
                                         <DataGridTextColumn Header="{DynamicResource Remark}" Binding="{Binding Remark}"></DataGridTextColumn>
-
-
-
                                     </DataGrid.Columns>
                                 </DataGrid>
 
                             </Grid>
                             <StackPanel Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Button Content="{DynamicResource Export}" FontSize="18" FontWeight="Black" Width="100" Height="50" Command="{Binding ExportCommand}" CommandParameter="{Binding Entity.Id}"></Button>
+                                <Button Content="{DynamicResource Export}" FontSize="18" FontWeight="Black" Width="100" Height="50" Command="{Binding ExportCommand}"></Button>
                             </StackPanel>
                         </Grid>
 

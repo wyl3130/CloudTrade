@@ -11,5 +11,6 @@ namespace CloudTrade.Application.Contracts.PurchaseOrders
     {
         public string CommodityName { get; set; }
         public string ModeInfoName { get; set; }
+        public int StockCount { get; set; }
     }
 }

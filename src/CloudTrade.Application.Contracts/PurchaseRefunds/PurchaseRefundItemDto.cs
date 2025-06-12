@@ -10,5 +10,6 @@ namespace CloudTrade.Application.Contracts.PurchaseRefunds
     public class PurchaseRefundItemDto:PurchaseRefundItem
     {
         public string CommodityName { get; set; }
+        public int StockCount { get; set; }
     }
 }

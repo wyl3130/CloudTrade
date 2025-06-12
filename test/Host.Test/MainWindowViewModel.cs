@@ -27,6 +27,19 @@ namespace Host.Test
 
            // BinaryFormatter binaryFormatter = new();
         }
+        public List<student> list { get; set; } = new List<student>
+        {
+            new student { id = 1, name = "张三" },
+            new student { id = 2, name = "李四" },
+            new student { id = 3, name = "王五" },
+            new student { id = 4, name = "赵六" }
+        };
+        public class student
+        {
+            public int id { get; set; }
+            public string name { get; set; }
+        }
+
         public DelegateCommand btn1Command
         {
             get

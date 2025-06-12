@@ -40,7 +40,7 @@ namespace CloudTrade.Domain.SalesRefunds
         public int OrderState { get; set; } // 订单状态 0未审核 1已审核
 
         [SugarColumn(ColumnName = "SalesExWareHouseId", IsNullable = true, ColumnDataType = "nvarchar", Length = 255, ColumnDescription = "关联的出库单据Id")]
-        public string SalesExWareHouseId { get; set; } // 关联的出库单据Id
+        public Guid SalesExWareHouseId { get; set; } // 关联的出库单据Id
 
         [SugarColumn(ColumnName = "CodeNo", IsNullable = false, ColumnDataType = "nvarchar", Length = 255,  ColumnDescription = "常规编码")]
         public string CodeNo { get; set; } // 常规编码 例：XT-2022-11-17-001

@@ -121,7 +121,7 @@ namespace CloudTrade.Host.ViewModels.CustomerCompanys
         {
             get
             {
-                return new DelegateCommand<IList>(async (arg) =>
+                return new DelegateCommand<IList>( (arg) =>
                 {
                     try
                     {

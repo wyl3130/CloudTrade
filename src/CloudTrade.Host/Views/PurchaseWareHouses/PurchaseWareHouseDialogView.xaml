@@ -38,14 +38,14 @@
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <DockPanel Grid.Column="0" Grid.Row="0" LastChildFill="False" HorizontalAlignment="Center">
-                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                        <TextBlock  VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
                             <Run Text="{DynamicResource CustomerCompanyName}"></Run>
                             <Run Text="："></Run>
                         </TextBlock>
                         <hc:ComboBox ItemsSource="{Binding CustomerCompanyList}" SelectedValue="{Binding Entity.CustomerCompanyId}" SelectedValuePath="Id" DisplayMemberPath="CustomerCompanyName" Width="200"  Height="40" FontSize="20" hc:InfoElement.ShowClearButton="True"></hc:ComboBox>
                     </DockPanel>
                     <DockPanel Grid.Column="1" Grid.Row="0" LastChildFill="False" HorizontalAlignment="Center">
-                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                        <TextBlock Width="130" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
                             <Run Text="{DynamicResource RealName}"></Run>
                             <Run Text="："></Run>
                         </TextBlock>
@@ -59,11 +59,11 @@
                         <hc:ComboBox Width="200" ItemsSource="{Binding WareHouseList,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Id" SelectedValue="{Binding Entity.WareHouseId,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="WareHouseName" Height="40" FontSize="20" hc:InfoElement.ShowClearButton="True"></hc:ComboBox>
                     </DockPanel>
                     <DockPanel Grid.Column="3" Grid.Row="0" LastChildFill="False" HorizontalAlignment="Center">
-                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                        <TextBlock Width="110" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
                             <Run Text="{DynamicResource Date}"></Run>
                             <Run Text="："></Run>
                         </TextBlock>
-                        <hc:DateTimePicker Width="200"  Text="{Binding Entity.WarehouseDate}"  Height="40" FontSize="20" hc:InfoElement.ShowClearButton="True"></hc:DateTimePicker>
+                        <hc:DateTimePicker Width="200"  Text="{Binding Entity.WareHouseDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Height="40" FontSize="20" hc:InfoElement.ShowClearButton="True"></hc:DateTimePicker>
                     </DockPanel>
 
                     <DockPanel Grid.Column="0" Grid.Row="1" LastChildFill="False" HorizontalAlignment="Center">
@@ -83,26 +83,19 @@
 
                     <DockPanel Grid.Column="2" Grid.Row="1" LastChildFill="False" HorizontalAlignment="Center">
                         <TextBlock Width="130" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
-                       <Run Text="收款金额"></Run>
+                       <Run Text="付款金额"></Run>
                        <Run Text="："></Run>
                         </TextBlock>
                         <hc:NumericUpDown  DecimalPlaces="2"  Maximum="100000" Value="{Binding Entity.CurrentAmount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" FontSize="20" Minimum="0" Width="200" Height="40"/>
                     </DockPanel>
 
                     <DockPanel Grid.Column="3" Grid.Row="1" LastChildFill="False" HorizontalAlignment="Center">
-                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                        <TextBlock Width="110" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
                             <Run Text="采购单"></Run>
                             <Run Text="："></Run>
                         </TextBlock>
-                        <hc:ComboBox x:Name="cbo_po" ItemsSource="{Binding PurchaseOrderList}" SelectedValue="{Binding Entity.PurchaseOrderId}" SelectedValuePath="Id" DisplayMemberPath="CodeNo" Width="200"  Height="40" FontSize="20" hc:InfoElement.ShowClearButton="True">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="SelectionChanged">
-                                    <i:InvokeCommandAction Command="{Binding PurchaseOrderCommand}" CommandParameter="{Binding ElementName=cbo_po,Path=SelectedValue}">
 
-                                    </i:InvokeCommandAction>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </hc:ComboBox>
+                        <Button Width="200" Height="40" Command="{Binding OrderbtnCommand}" Content="{Binding oEntity.CodeNo}"></Button>
                     </DockPanel>
 
                     <DockPanel Grid.Column="0" Grid.Row="2" LastChildFill="False" HorizontalAlignment="Center">
@@ -110,13 +103,13 @@
                             <Run Text="{DynamicResource OrderState}"></Run>
                             <Run Text="："></Run>
                         </TextBlock>
-                        <hc:ComboBox Width="200"  SelectedIndex="{Binding Entity.OrderState,Converter={StaticResource oscv}}" Height="40" FontSize="20" hc:InfoElement.ShowClearButton="True">
+                        <hc:ComboBox Width="200"  SelectedIndex="{Binding Entity.OrderState}" Height="40" FontSize="20" hc:InfoElement.ShowClearButton="True">
                             <ComboBoxItem Content="未审核"></ComboBoxItem>
                             <ComboBoxItem Content="已审核"></ComboBoxItem>
                         </hc:ComboBox>
                     </DockPanel>
                     <DockPanel Grid.Column="1" Grid.Row="2" LastChildFill="False" HorizontalAlignment="Center">
-                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
+                        <TextBlock Width="130" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Right" FontSize="25" Foreground="{DynamicResource PrimaryTextBrush}">
                             <Run Text="{DynamicResource Preparer}"></Run>
                             <Run Text="："></Run>
                         </TextBlock>
@@ -138,10 +131,10 @@
                             <TextBlock Text="{DynamicResource NoData}" TextAlignment="Center" FontSize="100" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}"></TextBlock>
                         </StackPanel>
                     </Border>
-                    <DataGrid  x:Name="dg" ItemsSource="{Binding PurchaseWareHouseItemList,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Visibility="{Binding PurchaseWareHouseItemList.Count,Converter={StaticResource btcv}}" hc:DataGridAttach.CanUnselectAllWithBlankArea="True" HeadersVisibility="All" RowHeaderWidth="60" AutoGenerateColumns="False"  >
+                    <DataGrid  x:Name="dg" hc:DataGridAttach.ShowRowNumber="True"  ItemsSource="{Binding PurchaseWareHouseItemList,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Visibility="{Binding PurchaseWareHouseItemList.Count,Converter={StaticResource btcv}}" hc:DataGridAttach.CanUnselectAllWithBlankArea="True" HeadersVisibility="All" RowHeaderWidth="60" AutoGenerateColumns="False"  >
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="{DynamicResource CommodityName}" Binding="{Binding CommodityName}"></DataGridTextColumn>
-                            <DataGridTextColumn Header="{DynamicResource Amount}" Binding="{Binding Amount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
+                             <DataGridTextColumn Header="{DynamicResource Amount}" Binding="{Binding Amount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
                             <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.Header>
                                     <TextBlock Text="{DynamicResource Price}"></TextBlock>
@@ -166,7 +159,7 @@
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <hc:NumericUpDown Value="{Binding Count,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"  Width="120" DecimalPlaces="2" Minimum="0">
+                                        <hc:NumericUpDown Value="{Binding Count,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"  Width="120"  Minimum="0">
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="LostFocus">
                                                     <i:InvokeCommandAction Command="{Binding DataContext.ColumnUpdateCommand, RelativeSource={RelativeSource AncestorType=Window}}" >
@@ -222,6 +215,16 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.Header>
+                                    <TextBlock Text="{DynamicResource Action}"  Width="120"></TextBlock>
+                                </DataGridTemplateColumn.Header>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="{DynamicResource Delete}" Style="{DynamicResource ButtonDanger}" Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding ElementName=dg,Path=SelectedItems}"></Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
 
                         </DataGrid.Columns>
                     </DataGrid>
@@ -233,7 +236,10 @@
                     <Button Content="{DynamicResource Enter}" Style="{DynamicResource ButtonDefault}" Command="{Binding enterCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=local:PurchaseWareHouseDialogView}}" Height="45" Width="200" FontSize="20" FontWeight="Bold" Margin="5"></Button>
                     <Button Content="{DynamicResource Close}" Style="{DynamicResource ButtonDefault}" Command="{Binding closeCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=local:PurchaseWareHouseDialogView}}" Height="45" Width="200" FontSize="20" FontWeight="Bold" Margin="5"></Button>
                 </DockPanel>
+
+
             </Grid>
+            
         </Border>
 
     </hc:TransitioningContentControl>

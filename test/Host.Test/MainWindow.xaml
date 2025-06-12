@@ -23,7 +23,7 @@
                                       FemaleTemplate="{StaticResource FemaleTemplate}" ></local:GenderTemplateSelector>
     </Window.Resources>
     <Grid>
-        <StackPanel>
+        <!--<StackPanel>
             <Button
               Content="按钮" Command="{Binding btn1Command}"
               IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
@@ -48,8 +48,8 @@
               Style="{StaticResource MaterialDesignRaisedLightButton}"
               ToolTip="悬浮提示"
               />
-            <!--<ListBox ItemsSource="{Binding GenderList}"
-                 ItemTemplateSelector="{StaticResource GenderTemplateSelector}" />-->
+            --><!--<ListBox ItemsSource="{Binding GenderList}"
+                 ItemTemplateSelector="{StaticResource GenderTemplateSelector}" />--><!--
             <StackPanel>
                 <Button Content="添加" x:Name="btn_insert" Command="{Binding InsertCommand}" CommandParameter="{Binding ElementName=btn_insert,Path=Name}"/>
                 <Button Content="ForwardCommand" Command="{Binding ForwardCommand}" />
@@ -58,6 +58,40 @@
                 <Button Content="ViewA" Command="{Binding ViewBCommand}" />
                 <ContentControl prism:RegionManager.RegionName="MainRegion" />
             </StackPanel>
-        </StackPanel>
+        </StackPanel>-->
+        <!--<DataGrid ItemsSource="{Binding list}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="编号" Binding="{Binding id}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style TargetType="TextBox">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.EditingElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Name" Binding="{Binding name}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style TargetType="TextBox">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.EditingElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>-->
+        <WebBrowser Source="D:\Downloads\bar-simple.html"></WebBrowser>
     </Grid>
 </Window>

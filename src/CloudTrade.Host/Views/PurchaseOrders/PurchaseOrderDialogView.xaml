@@ -11,7 +11,7 @@
         Background="{x:Null}"
         FocusVisualStyle="{x:Null}"
         WindowStyle="None"
-        Title="CommodityCategoryDialogView" Height="700" Width="1350" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+ Height="700" Width="1350" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
     <hc:TransitioningContentControl TransitionMode="Top2Bottom">
         <Border Background="{DynamicResource RegionBrush}" CornerRadius="10">
             <Grid>
@@ -60,7 +60,7 @@
                             <Run Text="{DynamicResource Date}"></Run>
                             <Run Text="："></Run>
                         </TextBlock>
-                        <hc:DateTimePicker Width="200"  Text="{Binding Entity.WareHouseDate}"  Height="40" FontSize="20" hc:InfoElement.ShowClearButton="True"></hc:DateTimePicker>
+                        <hc:DateTimePicker Width="200"  Text="{Binding Entity.WareHouseDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Height="40" FontSize="20" hc:InfoElement.ShowClearButton="True"></hc:DateTimePicker>
                     </DockPanel>
 
                     <DockPanel Grid.Column="0" Grid.Row="1" LastChildFill="False" HorizontalAlignment="Center">
@@ -99,6 +99,7 @@
                     <DataGrid  x:Name="dg"   hc:DataGridAttach.ShowRowNumber="True"  Visibility="{Binding PurchaseOrderItemList.Count,Converter={StaticResource btcv}}" hc:DataGridAttach.CanUnselectAllWithBlankArea="True" HeadersVisibility="All" RowHeaderWidth="60" AutoGenerateColumns="False" ItemsSource="{Binding PurchaseOrderItemList,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" >
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="{DynamicResource CommodityName}" Binding="{Binding CommodityName}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="{DynamicResource StockCount}" Binding="{Binding StockCount}"></DataGridTextColumn>
                             <DataGridTextColumn Header="{DynamicResource Amount}" Binding="{Binding Amount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
                             <DataGridTextColumn Header="含税单价" Binding="{Binding TaxPrice,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
                             <DataGridTextColumn Header="含税金额" Binding="{Binding TaxAmount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>

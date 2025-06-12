@@ -22,7 +22,7 @@ namespace CloudTrade.Host.ViewModels.CommodityCompanys
         {
             get
             {
-                return new DelegateCommand(async () =>
+                return new DelegateCommand(() =>
                 {
                     try
                     {

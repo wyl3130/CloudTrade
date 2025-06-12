@@ -9,14 +9,14 @@ namespace CloudTrade.Domain.Payments
     [SugarTable("Payments", TableDescription = "付款单")]
     public class Payment : BaseEntity
     {
-        [SugarColumn(ColumnName = "Id", IsNullable = false, ColumnDataType = "uniqueidentifier", ColumnDescription = "编号")]
-        public Guid Id { get; set; } // 编号
+        //[SugarColumn(ColumnName = "Id", IsNullable = false, ColumnDataType = "uniqueidentifier", ColumnDescription = "编号")]
+        //public Guid Id { get; set; } // 编号
 
-        [SugarColumn(ColumnName = "CreateTime", IsNullable = false, ColumnDataType = "nvarchar", Length = 100, ColumnDescription = "创建时间")]
-        public string CreateTime { get; set; } // 创建时间
+        //[SugarColumn(ColumnName = "CreateTime", IsNullable = false, ColumnDataType = "nvarchar", Length = 100, ColumnDescription = "创建时间")]
+        //public string CreateTime { get; set; } // 创建时间
 
-        [SugarColumn(ColumnName = "LastUpdateTime", IsNullable = false, ColumnDataType = "nvarchar", Length = 100, ColumnDescription = "最后修改时间")]
-        public string LastUpdateTime { get; set; } // 最后修改时间
+        //[SugarColumn(ColumnName = "LastUpdateTime", IsNullable = false, ColumnDataType = "nvarchar", Length = 100, ColumnDescription = "最后修改时间")]
+        //public string LastUpdateTime { get; set; } // 最后修改时间
 
         [SugarColumn(ColumnName = "CustomerCompanyId", IsNullable = false, ColumnDataType = "uniqueidentifier", ColumnDescription = "关联的客户/供应商编号")]
         public Guid CustomerCompanyId { get; set; } // 关联的客户/供应商编号

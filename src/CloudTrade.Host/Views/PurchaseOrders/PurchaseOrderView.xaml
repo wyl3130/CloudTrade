@@ -294,7 +294,7 @@
 
                             </Grid>
                             <StackPanel Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Button Content="{DynamicResource Export}" FontSize="18" FontWeight="Black" Width="100" Height="50" Command="{Binding ExportCommand}" CommandParameter="{Binding Entity.Id}"></Button>
+                                <Button Content="{DynamicResource Export}" FontSize="18" FontWeight="Black" Width="100" Height="50" Command="{Binding ExportCommand}"></Button>
                             </StackPanel>
                         </Grid>
                         

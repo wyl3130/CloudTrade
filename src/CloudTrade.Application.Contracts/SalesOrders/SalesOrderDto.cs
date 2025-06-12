@@ -11,5 +11,6 @@ namespace CloudTrade.Application.Contracts.SalesOrders
     {
         public string CustomerCompanyName { get; set; }
         public string WareHouseName { get; set; }
+        public string SalesModeName { get; set; }
     }
 }

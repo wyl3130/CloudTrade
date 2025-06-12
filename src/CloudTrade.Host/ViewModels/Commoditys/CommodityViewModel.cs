@@ -24,7 +24,7 @@ namespace CloudTrade.Host.ViewModels.Commoditys
         {
             get
             {
-                return new DelegateCommand(async () =>
+                return new DelegateCommand( () =>
                 {
                     try
                     {
@@ -154,12 +154,8 @@ namespace CloudTrade.Host.ViewModels.Commoditys
                 {
                     try
                     {
-        
                         eventAggregator.GetEvent<VisibilityChangeEvent>().Publish();
                         AppData.ShowLoadingWindow();
-                        //var category = arg[2]?.ToString() ?? "";
-                        //System.Windows.MessageBox.Show(category);
-
                         InitData(PageHelper.PageSize(Convert.ToInt32(arg[0])), arg[1]?.ToString() ?? "", arg[2]?.ToString() ?? "", arg[3]?.ToString() ?? "");
                         AppData.CloseLoadingWindow();
                         eventAggregator.GetEvent<VisibilityChangeEvent>().Publish();

@@ -9,6 +9,7 @@ using CloudTrade.Application.Contracts.CustomerCompanys;
 using CloudTrade.Application.Contracts.Departments;
 using CloudTrade.Application.Contracts.Employees;
 using CloudTrade.Application.Contracts.FinanceCategorys;
+using CloudTrade.Application.Contracts.Homes;
 using CloudTrade.Application.Contracts.ModeInfos;
 using CloudTrade.Application.Contracts.OtherFinances;
 using CloudTrade.Application.Contracts.PaymentAccounts;
@@ -28,6 +29,7 @@ using CloudTrade.Application.CustomerCompanys;
 using CloudTrade.Application.Departments;
 using CloudTrade.Application.Employees;
 using CloudTrade.Application.FinanceCategorys;
+using CloudTrade.Application.Homes;
 using CloudTrade.Application.ModeInfos;
 using CloudTrade.Application.OtherFinances;
 using CloudTrade.Application.PaymentAccounts;
@@ -166,6 +168,7 @@ namespace CloudTrade.Host
             containerRegistry.RegisterSingleton<IBaseService, BaseService>();
             containerRegistry.RegisterSingleton<IUserService, UserService>();
             containerRegistry.RegisterSingleton<IMenuService, MenuService>();
+            containerRegistry.RegisterSingleton<IDashboardService, DashboardService>();
 
             //进货
             containerRegistry.RegisterSingleton<IPurchaseOrderService, PurchaseOrderService>();

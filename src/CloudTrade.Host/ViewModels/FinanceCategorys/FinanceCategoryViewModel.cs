@@ -111,7 +111,7 @@ namespace CloudTrade.Host.ViewModels.FinanceCategorys
         {
             get
             {
-                return new DelegateCommand<IList>(async (arg) =>
+                return new DelegateCommand<IList>( (arg) =>
                 {
                     try
                     {

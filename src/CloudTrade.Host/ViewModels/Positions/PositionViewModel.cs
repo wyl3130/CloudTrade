@@ -36,7 +36,7 @@ namespace CloudTrade.Host.ViewModels.Positions
         {
             get
             {
-                return new DelegateCommand(async () =>
+                return new DelegateCommand( () =>
                 {
                     try
                     {
